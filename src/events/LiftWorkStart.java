@@ -13,7 +13,7 @@ public class LiftWorkStart extends Event {
     }
 
     public void perform(Simulation simulation) {
-        for(Lift w : lifts)
-            simulation.addEvent(new LiftDeparture(simulation.getSimulationStartTime(), w));
+        for(Lift lift : lifts)
+            simulation.addEvent(new LiftDeparture(this.time, lift));
     }
 }

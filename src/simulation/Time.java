@@ -17,6 +17,12 @@ public class Time {
         this.m = time.getM();
         this.s = time.getS();
     }
+    
+    public Time(int h, int m, int s) {
+        this.h = h;
+        this.m = m;
+        this.s = s;
+    }
 
     public int getH() {
         return h;
@@ -31,27 +37,7 @@ public class Time {
     }
 
     public String toString() {
-        String out = "";
-        if(h < 10)
-            out += "0" + h;
-        else
-            out += h;
-
-        out += ":";
-
-        if(m < 10)
-            out += "0" + m;
-        else
-            out += m;
-
-        out += ":";
-
-        if(s < 10)
-            out += "0" + s;
-        else
-            out += s;
-
-        return out;
+        return String.format("%02d:%02d:%d", h, m, s);
     }
 
     public Time addSeconds(int t) {
@@ -62,8 +48,7 @@ public class Time {
         int newM = remainder / 60;
         int newS = remainder % 60;
 
-        String newTime = String.format("%02d:%02d:%02d", newH, newM, newS);
-        return new Time(newTime);
+        return new Time(newH, newM, newS);
     }
 
 

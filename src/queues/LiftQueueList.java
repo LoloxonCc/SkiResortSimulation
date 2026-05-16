@@ -7,7 +7,8 @@ public class LiftQueueList implements LiftQueue {
     private LiftQueueElement tail;
 
     public LiftQueueList() {
-        this.head = tail = null;
+        this.head  = null;
+        this.tail = null;
     }
 
     public boolean empty() {
@@ -31,13 +32,11 @@ public class LiftQueueList implements LiftQueue {
     public void addLast(Athlete athlete) {
         LiftQueueElement newElement = new LiftQueueElement(athlete, tail, null);
 
-        if(empty()) {
+        if(empty())
             head = newElement;
-            tail = newElement;
-        }
-        else {
+        else
             tail.setNext(newElement);
-            tail = newElement;
-        }
+
+        tail = newElement;
     }
 }
