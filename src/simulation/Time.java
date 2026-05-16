@@ -1,9 +1,9 @@
 package simulation;
 
 public class Time {
-    private int h;
-    private int m;
-    private int s;
+    private final int h;
+    private final int m;
+    private final int s;
 
     public Time(String time) {
         String[] parts = time.split(":");
@@ -33,23 +33,23 @@ public class Time {
     public String toString() {
         String out = "";
         if(h < 10)
-            out += "0" + String.valueOf(h);
+            out += "0" + h;
         else
-            out += String.valueOf(h);
+            out += h;
 
         out += ":";
 
         if(m < 10)
-            out += "0" + String.valueOf(m);
+            out += "0" + m;
         else
-            out += String.valueOf(m);
+            out += m;
 
         out += ":";
 
         if(s < 10)
-            out += "0" + String.valueOf(s);
+            out += "0" + s;
         else
-            out += String.valueOf(s);
+            out += s;
 
         return out;
     }

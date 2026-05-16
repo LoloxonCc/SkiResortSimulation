@@ -7,14 +7,14 @@ import simulation.Simulation;
 import events.EnterQueue;
 
 public class Athlete {
-    private int skillLevel;
-    private double spontaneityCoefficient;
-    private boolean tracked;
-    private double skillAdjustmentWeight;
-    private double surfaceLevellingWeight;
-    private Node startingStation;
-    private Time startTime;
-    private int number;
+    private final int skillLevel;
+    private final double spontaneityCoefficient;
+    private final boolean tracked;
+    private final double skillAdjustmentWeight;
+    private final double surfaceLevellingWeight;
+    private final Node startingStation;
+    private final Time startTime;
+    private final int number;
 
     public Athlete(int skillLevel, double spontaneityCoefficient, String tracked, double skillAdjustmentWeight,
                    double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number) {
