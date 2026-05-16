@@ -1,15 +1,15 @@
 package events;
 
-import ski_resort.Node;
+import ski_resort.Connection;
 import athletes.Athlete;
 import simulation.Time;
 
 public class LiftEnd extends ConnectionEnd {
-    public LiftEnd(Time time, Athlete athlete, Node station) {
-        super(time, athlete, station);
+    public LiftEnd(Time time, Athlete athlete, Connection connection) {
+        super(time, athlete, connection);
     }
 
      public String getActionDescription() {
-        return " finished lift";
+        return " left the lift ";
      }
 }

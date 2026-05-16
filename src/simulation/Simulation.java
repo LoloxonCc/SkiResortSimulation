@@ -66,18 +66,17 @@ public class Simulation {
 
     public void endMessage() {
         System.out.println("End message:");
-        for(Node s : skiResort.getStations()) {
-            for(SkiRun t : s.getSkiRuns())
-                System.out.println(t);
-        }
-        for(Node s : skiResort.getStations()) {
-            for (Lift w : s.getLifts())
-                System.out.println(w);
-        }
+        for(Node station : skiResort.getStations())
+            for(SkiRun skiRun : station.getSkiRuns())
+                System.out.println(skiRun);
+
+        for(Node station : skiResort.getStations())
+            for (Lift lift : station.getLifts())
+                System.out.println(lift);
     }
 
     public void simulate() {
-        System.out.println("Provide input for a ski resort simulation.");
+        System.out.println("Provide input data for a ski resort simulation:");
         parser.readData(this);
 
         System.out.println(simulationStartTime + ": Simulation started!");
@@ -92,6 +91,5 @@ public class Simulation {
 
         System.out.println(simulationEndTime + ": Simulation ended!");
         endMessage();
-
     }
 }

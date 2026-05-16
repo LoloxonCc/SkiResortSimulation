@@ -12,7 +12,7 @@ public class LiftStart extends ConnectionStart {
 
     public void perform(Simulation simulation) {
         super.perform(simulation);
-        simulation.addEvent(new LiftEnd(new Time(time.addSeconds(connection.getTravelTime())), athlete, connection.getEndingStation()));
+        simulation.addEvent(new LiftEnd(new Time(time.addSeconds(connection.getTravelTime())), athlete, connection));
     }
 
     protected String getActionDescription() {

@@ -12,7 +12,7 @@ public class RunStart extends ConnectionStart {
 
     public void perform(Simulation simulation) {
         super.perform(simulation);
-        simulation.addEvent(new RunEnd(new Time(time.addSeconds(connection.getTravelTime())), athlete, connection.getEndingStation()));
+        simulation.addEvent(new RunEnd(new Time(time.addSeconds(connection.getTravelTime())), athlete, connection));
     }
 
     protected String getActionDescription() {

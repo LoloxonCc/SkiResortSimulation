@@ -5,7 +5,6 @@ import simulation.Simulation;
 import simulation.Time;
 
 public class AthleteArrival extends AthleteEvent {
-
     public AthleteArrival(Time time, Athlete athlete) {
         super(time, athlete);
     }
