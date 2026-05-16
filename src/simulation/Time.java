@@ -17,7 +17,7 @@ public class Time {
         this.m = time.getM();
         this.s = time.getS();
     }
-    
+
     public Time(int h, int m, int s) {
         this.h = h;
         this.m = m;
@@ -37,7 +37,7 @@ public class Time {
     }
 
     public String toString() {
-        return String.format("%02d:%02d:%d", h, m, s);
+        return String.format("%02d:%02d:%02d", h, m, s);
     }
 
     public Time addSeconds(int t) {
