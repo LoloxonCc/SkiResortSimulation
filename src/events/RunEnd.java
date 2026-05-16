@@ -20,7 +20,7 @@ public class RunEnd extends AthleteEvent {
             System.out.println(message());
     }
 
-    public String message() {
+    protected String message() {
         return super.message() + " skied to the station " + station.getNumber() + ".";
     }
 }

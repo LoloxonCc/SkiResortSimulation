@@ -22,7 +22,7 @@ public class EnterQueue extends AthleteEvent {
         }
     }
 
-    public String message() {
+    protected String message() {
         return super.message() + " entered the queue to the lift " + lift.getNumber() + ".";
     }
 }

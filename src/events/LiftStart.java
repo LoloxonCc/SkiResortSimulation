@@ -22,7 +22,7 @@ public class LiftStart extends AthleteEvent {
             System.out.println(message());
     }
 
-    public String message() {
+    protected String message() {
         return super.message() + " entered the lift " + lift.getNumber();
     }
 }

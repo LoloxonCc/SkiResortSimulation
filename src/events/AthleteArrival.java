@@ -17,7 +17,7 @@ public class AthleteArrival extends AthleteEvent {
             System.out.println(message());
     }
 
-    public String message() {
+    protected String message() {
         return super.message() + " arrived at the station " + athlete.getStartingStation().getNumber() + ".";
     }
 }

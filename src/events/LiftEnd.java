@@ -20,7 +20,7 @@ public class LiftEnd extends AthleteEvent {
             System.out.println(message());
     }
 
-    public String message() {
+    protected String message() {
         return super.message() + " finished lift to the station " + station.getNumber() + ".";
     }
 }

@@ -14,7 +14,7 @@ public abstract class AthleteEvent extends Event {
 
     public abstract void perform(Simulation simulation);
 
-    public String message() {
+    protected String message() {
         return time.toString() + ": Athlete " + athlete.getNumber();
     }
 }
