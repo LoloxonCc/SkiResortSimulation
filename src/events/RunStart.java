@@ -5,24 +5,17 @@ import athletes.Athlete;
 import simulation.Simulation;
 import simulation.Time;
 
-public class RunStart extends AthleteEvent {
-    private final SkiRun skiRun;
-
+public class RunStart extends ConnectionStart {
     public RunStart(Time time, Athlete athlete, SkiRun skiRun) {
-        super(time, athlete);
-        this.skiRun = skiRun;
+        super(time, athlete, skiRun);
     }
 
     public void perform(Simulation simulation) {
-        skiRun.incrementRunCounter();
-
-        simulation.addEvent(new RunEnd(new Time(time.addSeconds(skiRun.getRunTime())), athlete, skiRun.getEndingStation()));
-
-        if(athlete.isTracked())
-            System.out.println(message());
+        super.perform(simulation);
+        simulation.addEvent(new RunEnd(new Time(time.addSeconds(connection.getTravelTime())), athlete, connection.getEndingStation()));
     }
 
-    protected String message() {
-        return super.message() + " entered the ski run " + skiRun.getNumber() + ".";
+    protected String getActionDescription() {
+        return "ski run ";
     }
 }

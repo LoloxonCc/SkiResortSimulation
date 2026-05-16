@@ -7,17 +7,13 @@ import athletes.Athlete;
 public class Lift extends Connection {
     private final int timeInterval;
     private final int maxGroupSize;
-    private final int liftTime;
-    private LiftQueue queue;
-    private int number;
+    private final LiftQueue queue;
 
     public Lift(int station1Id, int station2Id, int timeInterval, int maxGroupSize,
                 int liftTime, SkiResort skiResort, int number) {
-        super(station1Id, station2Id, skiResort);
+        super(station1Id, station2Id, skiResort, number, liftTime);
         this.timeInterval = timeInterval;
         this.maxGroupSize = maxGroupSize;
-        this.liftTime = liftTime;
-        this.number = number;
         this.queue = new LiftQueueList();
     }
 
@@ -25,16 +21,8 @@ public class Lift extends Connection {
         return timeInterval;
     }
 
-    public int getLiftTime() {
-        return liftTime;
-    }
-
     public int getMaxGroupSize() {
         return maxGroupSize;
-    }
-
-    public int getNumber() {
-        return number;
     }
 
     public void addToQueue(Athlete athlete) {

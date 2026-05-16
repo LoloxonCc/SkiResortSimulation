@@ -4,33 +4,17 @@ import athletes.Athlete;
 
 public class SkiRun extends Connection {
     private final int difficultyLevel;
-    private final int runTime;
     private final double basicAttractiveness;
     private final double bumpsResistance;
-    private int number;
 
     public SkiRun(int station1Id, int station2Id, int difficultyLevel, int runTime, double basicAttractiveness,
                   double bumpsResistance, SkiResort skiResort, int number) {
         assert difficultyLevel >= 0 && difficultyLevel <= 10 : "Wrong difficulty level!";
 
-        super(station1Id, station2Id, skiResort);
+        super(station1Id, station2Id, skiResort, number, runTime);
         this.difficultyLevel = difficultyLevel;
-        this.runTime = runTime;
         this.basicAttractiveness = basicAttractiveness;
         this.bumpsResistance = bumpsResistance;
-        this.number = number;
-    }
-
-    public int getRunTime() {
-        return runTime;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public Node getEndingStation() {
-        return endingStation;
     }
 
     public String toString() {
