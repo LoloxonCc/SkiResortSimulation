@@ -5,7 +5,7 @@ import simulation.Simulation;
 import simulation.Time;
 import ski_resort.Connection;
 
-public abstract class ConnectionEnd extends ConnectionEvent {
+public abstract class ConnectionEnd extends ConnectionAthleteEvent {
     public ConnectionEnd(Time time, Athlete athlete, Connection connection) {
         super(time, athlete, connection);
     }

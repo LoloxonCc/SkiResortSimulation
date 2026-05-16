@@ -34,7 +34,7 @@ public class Lift extends Connection {
     }
 
     public String toString() {
-        String out = "Lift " + number;
+        String out = "Lift ";
         out += super.toString();
         return out;
     }

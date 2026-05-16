@@ -33,7 +33,7 @@ public abstract class Connection {
 
     public String toString() {
         String out = "";
-        out += " completed " + runCounter + " runs.";
+        out += number + " completed " + runCounter + " runs.";
         return out;
     }
 }

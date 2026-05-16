@@ -18,7 +18,7 @@ public class SkiRun extends Connection {
     }
 
     public String toString() {
-        String out = "Ski run " + number;
+        String out = "Ski run ";
         out += super.toString();
         return out;
     }
