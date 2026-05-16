@@ -2,25 +2,14 @@ package events;
 
 import ski_resort.Node;
 import athletes.Athlete;
-import simulation.Simulation;
 import simulation.Time;
 
-public class RunEnd extends AthleteEvent {
-    private final Node station;
-
+public class RunEnd extends ConnectionEnd {
     public RunEnd(Time time, Athlete athlete, Node station) {
-        super(time, athlete);
-        this.station = station;
+        super(time, athlete, station);
     }
 
-    public void perform(Simulation simulation) {
-        athlete.decision(time, station, simulation);
-
-        if(athlete.isTracked())
-            System.out.println(message());
-    }
-
-    protected String message() {
-        return super.message() + " skied to the station " + station.getNumber() + ".";
+    public String getActionName() {
+        return " skied";
     }
 }
