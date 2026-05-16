@@ -17,7 +17,6 @@ public abstract class ConnectionStart extends AthleteEvent {
         connection.incrementRunCounter();
         if(athlete.isTracked())
             System.out.println(message());
-
     }
 
     protected String message() {

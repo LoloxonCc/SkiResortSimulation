@@ -9,7 +9,7 @@ public class RunEnd extends ConnectionEnd {
         super(time, athlete, station);
     }
 
-    public String getActionName() {
+    public String getActionDescription() {
         return " skied";
     }
 }
