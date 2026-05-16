@@ -18,6 +18,8 @@ public class Athlete {
 
     public Athlete(int skillLevel, double spontaneityCoefficient, String tracked, double skillAdjustmentWeight,
                    double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number) {
+        assert skillLevel >= 0 && skillLevel <= 10 : "Wrong skill level!";
+
         this.skillLevel = skillLevel;
         this.spontaneityCoefficient = spontaneityCoefficient;
         this.tracked = tracked.equals("s");

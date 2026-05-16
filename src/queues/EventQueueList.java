@@ -9,6 +9,8 @@ public class EventQueueList implements EventQueue {
         head = null;
     }
 
+    // This method adds event in a sorted timeline. If the queue contains some events with the same time then new event
+    // is added after them.
     public void add(Event event) {
         EventQueueElement newElement = new EventQueueElement(event);
 
