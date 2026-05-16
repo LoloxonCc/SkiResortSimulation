@@ -77,6 +77,7 @@ public class Simulation {
     }
 
     public void simulate() {
+        System.out.println("Provide input for a ski resort simulation.");
         parser.readData(this);
 
         System.out.println(simulationStartTime + ": Simulation started!");
