@@ -4,6 +4,8 @@ import queues.LiftQueue;
 import queues.LiftQueueList;
 import athletes.Athlete;
 
+// Represents a ski lift connection between two stations in the ski resort.
+
 public class Lift extends Connection {
     private final int timeInterval;
     private final int maxGroupSize;

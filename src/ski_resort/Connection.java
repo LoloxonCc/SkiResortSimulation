@@ -1,5 +1,7 @@
 package ski_resort;
 
+// An abstract base class representing a directed edge being either ski run or lift.
+
 public abstract class Connection {
     protected final Node startingStation;
     protected final Node endingStation;

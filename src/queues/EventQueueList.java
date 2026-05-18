@@ -2,6 +2,9 @@ package queues;
 
 import events.Event;
 
+// Implementation of the event queue based on a singly linked list.
+// Events are inserted and maintained in strict chronological order.
+
 public class EventQueueList implements EventQueue {
     private EventQueueElement head;
 
@@ -14,6 +17,7 @@ public class EventQueueList implements EventQueue {
     public void add(Event event) {
         EventQueueElement newElement = new EventQueueElement(event);
 
+        // If the new event is the earliest or firts in whole simulation then it is added as head.
         if(head == null || !head.getEvent().getTime().isEarlierThan(event.getTime())) {
             newElement.setNext(head);
             head = newElement;
@@ -22,6 +26,8 @@ public class EventQueueList implements EventQueue {
 
         EventQueueElement current = head;
 
+        // Event is inserted to maintain a chronological order.
+        // If it has a same time of happening as another in queue then it is added after the one in the queue.
         while (current.getNext() != null && current.getNext().getEvent().getTime().isEarlierThan(event.getTime()))
             current = current.getNext();
 
@@ -29,12 +35,11 @@ public class EventQueueList implements EventQueue {
         current.setNext(newElement);
     }
 
-    @Override
     public boolean empty() {
         return head == null;
     }
 
-    @Override
+    // Retrieves and removes the earliest scheduled event from the queue.
     public Event first() {
         assert !this.empty() : "Cannot take out of an empty queue!";
         Event z = head.getEvent();

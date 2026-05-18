@@ -2,6 +2,8 @@ package queues;
 
 import athletes.Athlete;
 
+// Implementation of the queue of athletes waiting for a lift.
+
 public class LiftQueueList implements LiftQueue {
     private LiftQueueElement head;
     private LiftQueueElement tail;

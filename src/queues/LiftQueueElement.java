@@ -2,6 +2,8 @@ package queues;
 
 import athletes.Athlete;
 
+// Represents a single node within a linked list used for the lift queue.
+
 public class LiftQueueElement {
     private final Athlete athlete;
     private LiftQueueElement next;

@@ -1,5 +1,7 @@
 package simulation;
 
+// Represent virtual time in the simulation. Provides utility methods for operations.
+
 public class Time {
     private final int h;
     private final int m;
@@ -50,7 +52,6 @@ public class Time {
 
         return new Time(newH, newM, newS);
     }
-
 
     private int toSeconds() {
         return h * 3600 + m * 60 +s;

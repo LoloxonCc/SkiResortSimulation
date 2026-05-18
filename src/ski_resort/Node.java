@@ -4,6 +4,8 @@ import athletes.Athlete;
 
 import java.util.Random;
 
+// Represents a single station in the ski resort graph.
+
 public class Node {
     private final int height; //not used in this part of the project
     private final boolean isConnected; //not used in this part of the project
@@ -56,10 +58,16 @@ public class Node {
         return lifts[liftID];
     }
 
+    // Method for finding best route for the athlete by conditions given in project description.
+    // It checks ski runs that start from the station and those reachable by one lift ride and chooses the one
+    // that suits the athlete best.
+    // Method returns connection that the athlete should use, it is either ski run (if he chose one starting from this
+    // station) or a lift (if he chose one starting from upper station).
     private Connection findBestReachableRoute(Athlete athlete) {
         Connection bestConnection = null;
         double maxAttractiveness = -1.0;
 
+        // Checks ski runs starting from the station
         for(SkiRun skiRun : skiRuns) {
             double atr = skiRun.calculateCumulativeAttractiveness(athlete);
             if (atr > maxAttractiveness) {
@@ -68,6 +76,7 @@ public class Node {
             }
         }
 
+        // Checks ski runs reachable by one lift ride.
         for(Lift lift : lifts) {
             Node endingStation = lift.getEndingStation();
             for(SkiRun t : endingStation.getSkiRuns()) {
@@ -93,6 +102,7 @@ public class Node {
         return bestConnection;
     }
 
+    // Sometimes athlete makes a spontaneous choice of a connection that he will use.
     public Connection spontaneousChoice(Random generator) {
         int chosenConnectionId = generator.nextInt(0, lifts.length + skiRuns.length);
         if(chosenConnectionId < lifts.length)

@@ -6,6 +6,10 @@ import events.RunStart;
 import simulation.Simulation;
 import events.EnterQueue;
 
+/*
+    Represents an athlete (skier or snowboarder) participating in the ski resort simulation.
+    It is responsible for decision-making process for selecting next connection used by the athlet.
+ */
 public class Athlete {
     private final int skillLevel;
     private final double spontaneityCoefficient;
@@ -19,6 +23,7 @@ public class Athlete {
     public Athlete(int skillLevel, double spontaneityCoefficient, String tracked, double skillAdjustmentWeight,
                    double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number) {
         assert skillLevel >= 0 && skillLevel <= 10 : "Wrong skill level!";
+        assert spontaneityCoefficient >= 0.0 && spontaneityCoefficient <= 1.0 : "Wrong spontaneity coefficient!";
 
         this.skillLevel = skillLevel;
         this.spontaneityCoefficient = spontaneityCoefficient;
@@ -59,8 +64,11 @@ public class Athlete {
     }
 
     public void decision(Time time, Node station, Simulation simulation) {
+        // Athlete can make decision only before comebackTime (in this case 15:00:00).
+        // Otherwise, he returns to his startingStation (which is not simulated).
         if(!time.isEarlierThan(simulation.getComebackTime()))
             return;
+
         double chance = simulation.getGenerator().nextDouble();
         Connection choice;
 

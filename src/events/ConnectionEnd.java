@@ -5,6 +5,9 @@ import simulation.Simulation;
 import simulation.Time;
 import ski_resort.Connection;
 
+// Serves as an abstract base for events where athlete ends his journey on a lift or by a ski run.
+// It triggers his next decision in the reached station.
+
 public abstract class ConnectionEnd extends ConnectionAthleteEvent {
     public ConnectionEnd(Time time, Athlete athlete, Connection connection) {
         super(time, athlete, connection);

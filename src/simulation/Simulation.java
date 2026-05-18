@@ -13,6 +13,8 @@ import athletes.Athlete;
 
 import java.util.Random;
 
+// The core class of the ski resort simulation. Manages its global state and connect all parts of the system.
+
 public class Simulation {
     private SkiResort skiResort;
     private Athlete[] athletes;
@@ -64,6 +66,7 @@ public class Simulation {
         eventQueue.add(event);
     }
 
+    // Method responsible for printing statistics for all lifts and ski runs.
     public void endMessage() {
         System.out.println("End message:");
         for(Node station : skiResort.getStations())
@@ -81,6 +84,7 @@ public class Simulation {
 
         System.out.println(simulationStartTime + ": Simulation started!");
 
+        // Initialization of athletes arrivals and first lift departures.
         for(Athlete athlete : athletes)
             addEvent(new AthleteArrival(athlete.getStartTime(), athlete));
         for(Node station : skiResort.getStations())

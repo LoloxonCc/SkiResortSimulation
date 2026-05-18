@@ -1,5 +1,7 @@
 package ski_resort;
 
+// Represents the main infrastructure container of the ski resort, functioning as a graph.
+
 public class SkiResort {
     private Node[] stations;
 

@@ -5,6 +5,8 @@ import simulation.Simulation;
 import simulation.Time;
 import ski_resort.Connection;
 
+// Serves as an abstract base for events where an athlete starts using a connection, either ski run or a lift.
+
 public abstract class ConnectionStart extends ConnectionAthleteEvent {
 
     public ConnectionStart(Time time, Athlete athlete, Connection connection) {

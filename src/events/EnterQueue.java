@@ -5,6 +5,8 @@ import athletes.Athlete;
 import simulation.Simulation;
 import simulation.Time;
 
+// Represents the event of an athlete entering the queue for a lift.
+
 public class EnterQueue extends AthleteEvent {
     private final Lift lift;
 
@@ -14,6 +16,7 @@ public class EnterQueue extends AthleteEvent {
     }
 
     public void perform(Simulation simulation) {
+        // Athlete can join the queue only before his comeback time specified in the project description.
         if(time.isEarlierThan(simulation.getComebackTime())) {
             lift.addToQueue(athlete);
 

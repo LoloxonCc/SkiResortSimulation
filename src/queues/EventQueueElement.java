@@ -2,6 +2,8 @@ package queues;
 
 import events.Event;
 
+// Represents a single node within a singly linked list used to implement the event queue.
+
 public class EventQueueElement {
     private final Event event;
     private EventQueueElement next;

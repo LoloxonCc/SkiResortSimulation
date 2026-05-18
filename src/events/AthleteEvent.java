@@ -4,6 +4,10 @@ import athletes.Athlete;
 import simulation.Simulation;
 import simulation.Time;
 
+
+// Serves as an abstract base for any event that an athlete engages in.
+
+
 public abstract class AthleteEvent extends Event {
     protected final Athlete athlete;
 

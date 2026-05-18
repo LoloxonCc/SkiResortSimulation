@@ -8,6 +8,8 @@ import athletes.Athlete;
 import java.util.Locale;
 import java.util.Scanner;
 
+// A utility class responsible for reading and parsing the simulation input data, assuming the specified input format.
+
 public class Parser {
     private static void readNodes(Scanner inputScanner, SkiResort skiResort) {
         for(int i = 0; i < skiResort.getStationCount(); i++) {

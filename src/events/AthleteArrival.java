@@ -4,6 +4,9 @@ import athletes.Athlete;
 import simulation.Simulation;
 import simulation.Time;
 
+
+// Represents the initial event of an athlete arriving at his beginning station, when he makes his first decision.
+
 public class AthleteArrival extends AthleteEvent {
     public AthleteArrival(Time time, Athlete athlete) {
         super(time, athlete);
