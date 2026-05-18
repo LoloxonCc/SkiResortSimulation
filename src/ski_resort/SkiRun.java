@@ -9,9 +9,10 @@ public class SkiRun extends Connection {
 
     public SkiRun(int station1Id, int station2Id, int difficultyLevel, int runTime, double basicAttractiveness,
                   double bumpsResistance, SkiResort skiResort, int number) {
+        super(station1Id, station2Id, skiResort, number, runTime);
         assert difficultyLevel >= 0 && difficultyLevel <= 10 : "Wrong difficulty level!";
 
-        super(station1Id, station2Id, skiResort, number, runTime);
+
         this.difficultyLevel = difficultyLevel;
         this.basicAttractiveness = basicAttractiveness;
         this.bumpsResistance = bumpsResistance;
