@@ -12,7 +12,6 @@ public class SkiRun extends Connection {
         super(station1Id, station2Id, skiResort, number, runTime);
         assert difficultyLevel >= 0 && difficultyLevel <= 10 : "Wrong difficulty level!";
 
-
         this.difficultyLevel = difficultyLevel;
         this.basicAttractiveness = basicAttractiveness;
         this.bumpsResistance = bumpsResistance;
