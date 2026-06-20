@@ -20,6 +20,6 @@ public class AthleteArrival extends AthleteEvent {
     }
 
     protected String message() {
-        return super.message() + " arrived at the station " + athlete.getStartingStation().getNumber() + ".";
+        return super.message() + " begins his day at the station " + athlete.getStartingStation().getNumber() + ".";
     }
 }

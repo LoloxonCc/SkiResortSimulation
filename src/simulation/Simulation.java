@@ -16,22 +16,22 @@ import java.util.Random;
 // The core class of the ski resort simulation. Manages its global state and connect all parts of the system.
 
 public class Simulation {
-    private SkiResort skiResort;
-    private Athlete[] athletes;
+    private final SkiResort skiResort;
+    private final Athlete[] athletes;
     private final Time simulationStartTime;
     private final Time comebackTime;
     private final Time simulationEndTime;
     private final Random generator;
     private final EventQueue eventQueue;
-    private final Parser parser;
 
-    public Simulation(Time simulationStartTime, Time comebackTime, Time koniecSymulacji) {
+    public Simulation(Time simulationStartTime, Time comebackTime, Time simulationEndTime, SkiResort skiResort, Athlete[] athletes) {
         this.simulationStartTime = simulationStartTime;
-        this.simulationEndTime = koniecSymulacji;
+        this.simulationEndTime = simulationEndTime;
         this.comebackTime = comebackTime;
         this.generator = new Random();
         this.eventQueue = new EventQueueList();
-        this.parser = new Parser();
+        this.skiResort = skiResort;
+        this.athletes = athletes;
     }
 
     public SkiResort getSkiResort() {
@@ -54,14 +54,6 @@ public class Simulation {
         return generator;
     }
 
-    public void setSkiResort(SkiResort skiResort) {
-        this.skiResort = skiResort;
-    }
-
-    public void setAthletes(Athlete[] athletes) {
-        this.athletes = athletes;
-    }
-
     public void addEvent(Event event) {
         eventQueue.add(event);
     }
@@ -79,9 +71,6 @@ public class Simulation {
     }
 
     public void simulate() {
-        System.out.println("Provide input data for a ski resort simulation:");
-        parser.readData(this);
-
         System.out.println(simulationStartTime + ": Simulation started!");
 
         // Initialization of athletes arrivals and first lift departures.

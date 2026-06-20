@@ -1,5 +1,6 @@
 package simulation;
 
+import ski_resort.Node;
 import ski_resort.SkiResort;
 import ski_resort.SkiRun;
 import ski_resort.Lift;
@@ -11,8 +12,9 @@ import java.util.Scanner;
 // A utility class responsible for reading and parsing the simulation input data, assuming the specified input format.
 
 public class Parser {
-    private static void readNodes(Scanner inputScanner, SkiResort skiResort) {
-        for(int i = 0; i < skiResort.getStationCount(); i++) {
+    private static Node[] readNodes(Scanner inputScanner, int n) {
+        Node[] stations = new Node[n];
+        for(int i = 0; i < n; i++) {
             String line = inputScanner.nextLine();
             Scanner lineScanner = new Scanner(line);
 
@@ -21,10 +23,12 @@ public class Parser {
             int y = lineScanner.nextInt();
 
             if(lineScanner.hasNext())
-                skiResort.addStation(height, x, y, "s", i);
+                stations[i] = new Node(height, x, y, i, "s");
             else
-                skiResort.addStation(height, x, y, "", i);
+                stations[i] = new Node(height, x, y, i, "");
+            lineScanner.close();
         }
+        return stations;
     }
 
     private static void readLifts(Scanner inputScanner, SkiResort skiResort, int n) {
@@ -39,6 +43,7 @@ public class Parser {
             int liftTime = lineScanner.nextInt();
 
             skiResort.getStation(station1Id).addLift(new Lift(station1Id, station2Id, timeInterval, maxGroupSize, liftTime, skiResort, i));
+            lineScanner.close();
         }
     }
 
@@ -56,12 +61,11 @@ public class Parser {
             double bumpsResistance = lineScanner.nextDouble();
 
             skiResort.getStation(station1Id).addSkiRun(new SkiRun(station1Id, station2Id, difficultyLevel, runTime, bassicAtractiveness, bumpsResistance, skiResort, i));
+            lineScanner.close();
         }
     }
 
-    private static void readAthletes(Scanner inputScanner, Simulation simulation, int n) {
-        Athlete[] athletes = new Athlete[0];
-
+    private static Athlete[] readAthletes(Scanner inputScanner, Athlete[] athletes, SkiResort skiResort, int n) {
         for(int i = 0; i < n; i++) {
             String line = inputScanner.nextLine();
             Scanner lineScanner = new Scanner(line);
@@ -98,36 +102,40 @@ public class Parser {
 
             for(int j = 0; j < m; j++)
                 newAthletes[athletes.length + j] = new Athlete(skillLevel, spontaneityCoefficient, s,
-                        skillAdjustmentWeight, surfaceLevellingWeight, stationId, simulation.getSkiResort(),
+                        skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
                         time.addSeconds(j * interval), athletes.length + j);
 
             athletes = newAthletes;
+            lineScanner.close();
         }
-
-        simulation.setAthletes(athletes);
+        return athletes;
     }
 
-    public void readData(Simulation simulation) {
-        Scanner scannerWejscia = new Scanner(System.in);
+    public Simulation readData(Time simulationStartTime, Time comebackTime, Time simulationEndTime) {
+        Scanner inputScanner = new Scanner(System.in);
 
-        int n = scannerWejscia.nextInt();
-        scannerWejscia.nextLine();
-        simulation.setSkiResort(new SkiResort(n));
-        readNodes(scannerWejscia, simulation.getSkiResort());
-        if (scannerWejscia.hasNextLine()) scannerWejscia.nextLine();
+        int n = inputScanner.nextInt();
+        inputScanner.nextLine();
+        Node[] stations = readNodes(inputScanner, n);
+        SkiResort skiResort = new SkiResort(stations);
+        if (inputScanner.hasNextLine()) inputScanner.nextLine();
 
-        n = scannerWejscia.nextInt();
-        scannerWejscia.nextLine();
-        readLifts(scannerWejscia, simulation.getSkiResort(), n);
-        if (scannerWejscia.hasNextLine()) scannerWejscia.nextLine();
+        n = inputScanner.nextInt();
+        inputScanner.nextLine();
+        readLifts(inputScanner, skiResort, n);
+        if (inputScanner.hasNextLine()) inputScanner.nextLine();
 
-        n = scannerWejscia.nextInt();
-        scannerWejscia.nextLine();
-        readSkiRuns(scannerWejscia, simulation.getSkiResort(), n);
-        if (scannerWejscia.hasNextLine()) scannerWejscia.nextLine();
+        n = inputScanner.nextInt();
+        inputScanner.nextLine();
+        readSkiRuns(inputScanner, skiResort, n);
+        if (inputScanner.hasNextLine()) inputScanner.nextLine();
 
-        n = scannerWejscia.nextInt();
-        scannerWejscia.nextLine();
-        readAthletes(scannerWejscia, simulation, n);
+        n = inputScanner.nextInt();
+        inputScanner.nextLine();
+        Athlete[] athletes = new Athlete[0];
+        athletes = readAthletes(inputScanner, athletes, skiResort, n);
+
+        inputScanner.close();
+        return new Simulation(simulationStartTime, comebackTime, simulationEndTime, skiResort, athletes);
     }
 }

@@ -21,7 +21,8 @@ public abstract class ConnectionEnd extends ConnectionAthleteEvent {
     }
 
     protected String message() {
-        return super.message() + getActionDescription() + connection.getNumber() + ".";
+        return super.message() + getActionDescription() + connection.getNumber() + ".\n" +
+                super.message() + " arrived at the station " + connection.getEndingStation().getNumber() + ".";
     }
 
     protected abstract String getActionDescription();
