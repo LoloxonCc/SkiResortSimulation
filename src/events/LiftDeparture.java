@@ -23,8 +23,8 @@ public class LiftDeparture extends Event {
             simulation.addEvent(new LiftStart(time, lift.firstAthleteInQueue(), lift));
             i++;
         }
-        // Next departure can be scheduled only before simulation end time specified in the project (16:00:00).
-        if(time.addSeconds(lift.getTimeInterval()).isEarlierThan(simulation.getSimulationEndTime()))
+        // Next departure can be scheduled only before simulation comeback time specified in the project (15:00:00).
+        if(time.addSeconds(lift.getTimeInterval()).isEarlierThan(simulation.getComebackTime()))
             simulation.addEvent(new LiftDeparture(time.addSeconds(lift.getTimeInterval()), lift));
     }
 }
