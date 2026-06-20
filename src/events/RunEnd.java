@@ -12,6 +12,6 @@ public class RunEnd extends ConnectionEnd {
     }
 
     public String getActionDescription() {
-        return " skied the run ";
+        return " skied the slope ";
     }
 }

@@ -6,7 +6,7 @@ import events.AthleteArrival;
 import queues.EventQueue;
 import queues.EventQueueList;
 import ski_resort.SkiResort;
-import ski_resort.SkiRun;
+import ski_resort.SkiSlope;
 import ski_resort.Lift;
 import ski_resort.Node;
 import athletes.Athlete;
@@ -62,8 +62,8 @@ public class Simulation {
     public void endMessage() {
         System.out.println("End message:");
         for(Node station : skiResort.getStations())
-            for(SkiRun skiRun : station.getSkiRuns())
-                System.out.println(skiRun);
+            for(SkiSlope skiSlope : station.getSkiSlopes())
+                System.out.println(skiSlope);
 
         for(Node station : skiResort.getStations())
             for (Lift lift : station.getLifts())

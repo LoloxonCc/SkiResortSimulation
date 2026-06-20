@@ -7,13 +7,13 @@ import simulation.Time;
 
 // Represents a ski run connection between two stations in the ski resort.
 
-public class SkiRun extends Connection {
+public class SkiSlope extends Connection {
     private final int difficultyLevel;
     private final double basicAttractiveness;
     private final double bumpsResistance;
 
-    public SkiRun(int station1Id, int station2Id, int difficultyLevel, int runTime, double basicAttractiveness,
-                  double bumpsResistance, SkiResort skiResort, int number) {
+    public SkiSlope(int station1Id, int station2Id, int difficultyLevel, int runTime, double basicAttractiveness,
+                    double bumpsResistance, SkiResort skiResort, int number) {
         super(station1Id, station2Id, skiResort, number, runTime);
         assert difficultyLevel >= 0 && difficultyLevel <= 10 : "Wrong difficulty level!";
 

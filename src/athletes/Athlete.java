@@ -95,18 +95,18 @@ public class Athlete {
         double maxAttractiveness = -1.0;
 
         // Checks ski runs starting from the station
-        for(SkiRun skiRun : station.getSkiRuns()) {
-            double atr = skiRun.calculateCumulativeAttractiveness(this);
+        for(SkiSlope skiSlope : station.getSkiSlopes()) {
+            double atr = skiSlope.calculateCumulativeAttractiveness(this);
             if (atr > maxAttractiveness) {
                 maxAttractiveness = atr;
-                bestConnection = skiRun;
+                bestConnection = skiSlope;
             }
         }
 
         // Checks ski runs reachable by one lift ride.
         for(Lift lift : station.getLifts()) {
             Node endingStation = lift.getEndingStation();
-            for(SkiRun t : endingStation.getSkiRuns()) {
+            for(SkiSlope t : endingStation.getSkiSlopes()) {
                 double atr = t.calculateCumulativeAttractiveness(this);
                 if (atr > maxAttractiveness) {
                     maxAttractiveness = atr;
@@ -131,10 +131,10 @@ public class Athlete {
 
     // Sometimes athlete makes a spontaneous choice of a connection that he will use.
     public Connection spontaneousChoice(Random generator, Node station) {
-        int chosenConnectionId = generator.nextInt(0, station.getLifts().length + station.getSkiRuns().length);
+        int chosenConnectionId = generator.nextInt(0, station.getLifts().length + station.getSkiSlopes().length);
         if(chosenConnectionId < station.getLifts().length)
             return station.getLifts()[chosenConnectionId];
         else
-            return station.getSkiRuns()[chosenConnectionId - station.getLifts().length];
+            return station.getSkiSlopes()[chosenConnectionId - station.getLifts().length];
     }
 }

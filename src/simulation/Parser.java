@@ -2,7 +2,7 @@ package simulation;
 
 import ski_resort.Node;
 import ski_resort.SkiResort;
-import ski_resort.SkiRun;
+import ski_resort.SkiSlope;
 import ski_resort.Lift;
 import athletes.Athlete;
 
@@ -47,7 +47,7 @@ public class Parser {
         }
     }
 
-    private static void readSkiRuns(Scanner inputScanner, SkiResort skiResort, int n) {
+    private static void readSkiSlopes(Scanner inputScanner, SkiResort skiResort, int n) {
         for(int i = 0; i < n; i++) {
             String line = inputScanner.nextLine();
             Scanner lineScanner = new Scanner(line);
@@ -60,12 +60,16 @@ public class Parser {
             double bassicAtractiveness = lineScanner.nextDouble();
             double bumpsResistance = lineScanner.nextDouble();
 
-            skiResort.getStation(station1Id).addSkiRun(new SkiRun(station1Id, station2Id, difficultyLevel, runTime, bassicAtractiveness, bumpsResistance, skiResort, i));
+            skiResort.getStation(station1Id).addSkiSlope(new SkiSlope(station1Id, station2Id, difficultyLevel, runTime, bassicAtractiveness, bumpsResistance, skiResort, i));
             lineScanner.close();
         }
     }
 
-    private static Athlete[] readAthletes(Scanner inputScanner, Athlete[] athletes, SkiResort skiResort, int n) {
+    private static Athlete[] readAthletes(Scanner inputScanner, SkiResort skiResort, int n) {
+        int capacity = 16;
+        int currentAthleteCount = 0;
+        Athlete[] athletes = new Athlete[capacity];
+
         for(int i = 0; i < n; i++) {
             String line = inputScanner.nextLine();
             Scanner lineScanner = new Scanner(line);
@@ -81,6 +85,7 @@ public class Parser {
                 s = "";
 
             line = inputScanner.nextLine();
+            lineScanner.close();
             lineScanner = new Scanner(line);
             lineScanner.useLocale(Locale.ENGLISH);
 
@@ -88,6 +93,7 @@ public class Parser {
             double surfaceLevellingWeight = lineScanner.nextDouble();
 
             line = inputScanner.nextLine();
+            lineScanner.close();
             lineScanner = new Scanner(line);
 
             int stationId = lineScanner.nextInt();
@@ -96,19 +102,29 @@ public class Parser {
             if(lineScanner.hasNextInt()) {
                 interval = lineScanner.nextInt();
             }
-
-            Athlete[] newAthletes = new Athlete[athletes.length + m];
-            System.arraycopy(athletes, 0, newAthletes, 0, athletes.length);
-
-            for(int j = 0; j < m; j++)
-                newAthletes[athletes.length + j] = new Athlete(skillLevel, spontaneityCoefficient, s,
-                        skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
-                        time.addSeconds(j * interval), athletes.length + j);
-
-            athletes = newAthletes;
             lineScanner.close();
+
+            if (currentAthleteCount + m > capacity) {
+                capacity = Math.max(capacity * 2, currentAthleteCount + m);
+                Athlete[] newAthletes = new Athlete[capacity];
+                System.arraycopy(athletes, 0, newAthletes, 0, currentAthleteCount);
+                athletes = newAthletes;
+            }
+
+            for(int j = 0; j < m; j++) {
+                athletes[currentAthleteCount] = new Athlete(
+                        skillLevel, spontaneityCoefficient, s,
+                        skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
+                        time.addSeconds(j * interval), currentAthleteCount
+                );
+                currentAthleteCount++;
+            }
         }
-        return athletes;
+
+        Athlete[] finalAthletes = new Athlete[currentAthleteCount];
+        System.arraycopy(athletes, 0, finalAthletes, 0, currentAthleteCount);
+
+        return finalAthletes;
     }
 
     public Simulation readData(Time simulationStartTime, Time comebackTime, Time simulationEndTime) {
@@ -127,13 +143,12 @@ public class Parser {
 
         n = inputScanner.nextInt();
         inputScanner.nextLine();
-        readSkiRuns(inputScanner, skiResort, n);
+        readSkiSlopes(inputScanner, skiResort, n);
         if (inputScanner.hasNextLine()) inputScanner.nextLine();
 
         n = inputScanner.nextInt();
         inputScanner.nextLine();
-        Athlete[] athletes = new Athlete[0];
-        athletes = readAthletes(inputScanner, athletes, skiResort, n);
+        Athlete[] athletes = readAthletes(inputScanner, skiResort, n);
 
         inputScanner.close();
         return new Simulation(simulationStartTime, comebackTime, simulationEndTime, skiResort, athletes);

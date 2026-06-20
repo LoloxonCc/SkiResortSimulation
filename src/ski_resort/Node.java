@@ -8,7 +8,9 @@ public class Node {
     private final int x; //not used in this part of the project
     private final int y; //not used in this part of the project
     private Lift[] lifts;
-    private SkiRun[] skiRuns;
+    private int liftsCount;
+    private SkiSlope[] skiSlopes;
+    private int skiSlopesCount;
     private final int number;
     
     public Node(int height, int x, int y, int numer, String s) {
@@ -16,8 +18,10 @@ public class Node {
         this.x = x;
         this.y = y;
         this.isConnected = s.equals("s");
-        this.lifts = new Lift[0];
-        this.skiRuns = new SkiRun[0];
+        this.lifts = new Lift[4];
+        this.liftsCount = 0;
+        this.skiSlopes = new SkiSlope[4];
+        this.skiSlopesCount = 0;
         this.number = numer;
     }
 
@@ -25,27 +29,37 @@ public class Node {
         return number;
     }
 
-    public SkiRun[] getSkiRuns() {
-        return skiRuns.clone();
+    public SkiSlope[] getSkiSlopes() {
+        SkiSlope[] exactSkiSlopes = new SkiSlope[skiSlopesCount];
+        System.arraycopy(skiSlopes, 0, exactSkiSlopes, 0, skiSlopesCount);
+        return exactSkiSlopes;
     }
 
     public Lift[] getLifts() {
-        return lifts.clone();
+        Lift[] exactLifts = new Lift[liftsCount];
+        System.arraycopy(lifts, 0, exactLifts, 0, liftsCount);
+        return exactLifts;
     }
     
     public void addLift(Lift lift) {
-        Lift[] newLifts = new Lift[lifts.length + 1];
-        System.arraycopy(lifts, 0, newLifts, 0, lifts.length);
-        newLifts[newLifts.length - 1] = lift;
-
-        lifts = newLifts;
+        if (liftsCount == lifts.length) {
+            int newCapacity = lifts.length * 2;
+            Lift[] newLifts = new Lift[newCapacity];
+            System.arraycopy(lifts, 0, newLifts, 0, liftsCount);
+            lifts = newLifts;
+        }
+        lifts[liftsCount] = lift;
+        liftsCount++;
     }
 
-    public void addSkiRun(SkiRun skiRun) {
-        SkiRun[] newSkiRuns = new SkiRun[skiRuns.length + 1];
-        System.arraycopy(skiRuns, 0, newSkiRuns, 0, skiRuns.length);
-        newSkiRuns[newSkiRuns.length - 1] = skiRun;
-
-        skiRuns = newSkiRuns;
+    public void addSkiSlope(SkiSlope skiSlope) {
+        if (skiSlopesCount == skiSlopes.length) {
+            int newCapacity = skiSlopes.length * 2;
+            SkiSlope[] newSkiSlopes = new SkiSlope[newCapacity];
+            System.arraycopy(skiSlopes, 0, newSkiSlopes, 0, skiSlopesCount);
+            skiSlopes = newSkiSlopes;
+        }
+        skiSlopes[skiSlopesCount] = skiSlope;
+        skiSlopesCount++;
     }
 }
