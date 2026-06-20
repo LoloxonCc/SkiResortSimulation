@@ -1,6 +1,9 @@
 package ski_resort;
 
 import athletes.Athlete;
+import events.RunStart;
+import simulation.Simulation;
+import simulation.Time;
 
 // Represents a ski run connection between two stations in the ski resort.
 
@@ -42,5 +45,15 @@ public class SkiRun extends Connection {
     // Calculates cumulative attractiveness for the athlete using formulae given in the project description.
     public double calculateCumulativeAttractiveness(Athlete athlete) {
         return athlete.getSkillAdjustmentWeight() * calculateDifficultyAdjustment(athlete.getSkillLevel()) + athlete.getSurfaceLevellingWeight() * calculateSurfaceLevelling();
+    }
+
+    @Override
+    public boolean isLift() {
+        return false;
+    }
+
+    @Override
+    public void scheduleEvent(Simulation simulation, Time time, Athlete athlete) {
+        simulation.addEvent(new RunStart(time, athlete, this));
     }
 }

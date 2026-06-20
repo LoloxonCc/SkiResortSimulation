@@ -2,6 +2,10 @@ package ski_resort;
 
 // An abstract base class representing a directed edge being either ski run or lift.
 
+import athletes.Athlete;
+import simulation.Simulation;
+import simulation.Time;
+
 public abstract class Connection {
     protected final Node startingStation;
     protected final Node endingStation;
@@ -38,4 +42,8 @@ public abstract class Connection {
         out += number + " completed " + runCounter + " runs.";
         return out;
     }
+
+    public abstract boolean isLift();
+
+    public abstract void scheduleEvent(Simulation simulation, Time time, Athlete athlete);
 }

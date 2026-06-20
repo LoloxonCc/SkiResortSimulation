@@ -2,9 +2,9 @@ package athletes;
 
 import ski_resort.*;
 import simulation.Time;
-import events.RunStart;
 import simulation.Simulation;
-import events.EnterQueue;
+
+import java.util.Random;
 
 /*
     Represents an athlete (skier or snowboarder) participating in the ski resort simulation.
@@ -73,14 +73,68 @@ public class Athlete {
         Connection choice;
 
         if(chance < spontaneityCoefficient)
-            choice = station.spontaneousChoice(simulation.getGenerator());
+            choice = this.spontaneousChoice(simulation.getGenerator(), station);
         else
-            choice = station.findBestConnection(this, simulation.getGenerator());
+            choice = this.findBestConnection(station, simulation.getGenerator());
 
-        if (choice instanceof SkiRun skiRun) {
-            simulation.addEvent(new RunStart(time, this, skiRun));
-        } else if (choice instanceof Lift lift) {
-            simulation.addEvent(new EnterQueue(time, this, lift));
+        choice.scheduleEvent(simulation, time, this);
+    }
+
+    private Lift chooseRandomLift(Random generator, Node station) {
+        int liftID = generator.nextInt(0, station.getLifts().length);
+        return station.getLifts()[liftID];
+    }
+
+    // Method for finding best route for the athlete by conditions given in project description.
+    // It checks ski runs that start from the station and those reachable by one lift ride and chooses the one
+    // that suits the athlete best.
+    // Method returns connection that the athlete should use, it is either ski run (if he chose one starting from this
+    // station) or a lift (if he chose one starting from upper station).
+    private Connection findBestReachableRoute(Node station) {
+        Connection bestConnection = null;
+        double maxAttractiveness = -1.0;
+
+        // Checks ski runs starting from the station
+        for(SkiRun skiRun : station.getSkiRuns()) {
+            double atr = skiRun.calculateCumulativeAttractiveness(this);
+            if (atr > maxAttractiveness) {
+                maxAttractiveness = atr;
+                bestConnection = skiRun;
+            }
         }
+
+        // Checks ski runs reachable by one lift ride.
+        for(Lift lift : station.getLifts()) {
+            Node endingStation = lift.getEndingStation();
+            for(SkiRun t : endingStation.getSkiRuns()) {
+                double atr = t.calculateCumulativeAttractiveness(this);
+                if (atr > maxAttractiveness) {
+                    maxAttractiveness = atr;
+                    bestConnection = lift;
+                }
+            }
+        }
+
+        return bestConnection;
+    }
+
+    public Connection findBestConnection(Node station, Random generator) {
+        Connection bestConnection = findBestReachableRoute(station);
+
+        if(bestConnection == null)
+            // If there are no ski runs from this station and those that can be reached by lifts
+            // then athlete chooses a random lift
+            return this.chooseRandomLift(generator, station);
+
+        return bestConnection;
+    }
+
+    // Sometimes athlete makes a spontaneous choice of a connection that he will use.
+    public Connection spontaneousChoice(Random generator, Node station) {
+        int chosenConnectionId = generator.nextInt(0, station.getLifts().length + station.getSkiRuns().length);
+        if(chosenConnectionId < station.getLifts().length)
+            return station.getLifts()[chosenConnectionId];
+        else
+            return station.getSkiRuns()[chosenConnectionId - station.getLifts().length];
     }
 }

@@ -1,8 +1,11 @@
 package ski_resort;
 
+import events.EnterQueue;
 import queues.LiftQueue;
 import queues.LiftQueueList;
 import athletes.Athlete;
+import simulation.Simulation;
+import simulation.Time;
 
 // Represents a ski lift connection between two stations in the ski resort.
 
@@ -43,5 +46,15 @@ public class Lift extends Connection {
 
     public Athlete firstAthleteInQueue() {
         return queue.first();
+    }
+
+    @Override
+    public boolean isLift() {
+        return true;
+    }
+
+    @Override
+    public void scheduleEvent(Simulation simulation, Time time, Athlete athlete) {
+        simulation.addEvent(new EnterQueue(time, athlete, this));
     }
 }
