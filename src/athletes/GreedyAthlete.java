@@ -2,9 +2,7 @@ package athletes;
 
 import simulation.Simulation;
 import simulation.Time;
-import ski_resort.Connection;
-import ski_resort.Node;
-import ski_resort.SkiResort;
+import ski_resort.*;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -30,6 +28,58 @@ public class GreedyAthlete extends Athlete {
     }
 
     public void prepareTripPlan(Node station, Simulation simulation) {
+        boolean[] visited = new boolean[simulation.getSkiResort().getTotalConnectionsCount()];
+        Connection[] parent = new Connection[simulation.getSkiResort().getTotalConnectionsCount()];
+        Queue<Connection> queueBFS = new LinkedList<>();
+        for(SkiSlope skiSlope : station.getSkiSlopes()) {
+            queueBFS.add(skiSlope);
+            visited[skiSlope.getNumber()] = true;
+            parent[skiSlope.getNumber()] = null;
+        }
+        for(Lift lift : station.getLifts()) {
+            queueBFS.add(lift);
+            visited[lift.getNumber()] = true;
+            parent[lift.getNumber()] = null;
+        }
 
+        while(!queueBFS.isEmpty()) {
+            Connection connection = queueBFS.poll();
+            Node nextStation = connection.getEndingStation();
+
+            for(SkiSlope skiSlope : nextStation.getSkiSlopes()) {
+                if(!visited[skiSlope.getNumber()]) {
+                    queueBFS.add(skiSlope);
+                    visited[skiSlope.getNumber()] = true;
+                    parent[skiSlope.getNumber()] = connection;
+                }
+            }
+            for(Lift lift : nextStation.getLifts()) {
+                if(!visited[lift.getNumber()]) {
+                    queueBFS.add(lift);
+                    visited[lift.getNumber()] = true;
+                    parent[lift.getNumber()] = connection;
+                }
+            }
+        }
+
+        SkiSlope targetSkiSlope = null;
+        for(Node node : simulation.getSkiResort().getStations()) {
+            for(SkiSlope skiSlope : node.getSkiSlopes()) {
+                if(targetSkiSlope == null)
+                    targetSkiSlope = skiSlope;
+                else if(skiSlope.calculateCumulativeAttractiveness(this) > targetSkiSlope.calculateCumulativeAttractiveness(this))
+                    targetSkiSlope = skiSlope;
+            }
+        }
+
+        LinkedList<Connection> path = new LinkedList<>();
+        Connection current = targetSkiSlope;
+
+        while (current != null) {
+            path.addFirst(current);
+            current = parent[current.getNumber()];
+        }
+
+        tripPlan.addAll(path);
     }
 }
