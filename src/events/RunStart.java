@@ -14,6 +14,7 @@ public class RunStart extends ConnectionStart {
 
     public void perform(Simulation simulation) {
         super.perform(simulation);
+        athlete.increaseDescentCount(connection.getNumber());
         // Schedules arrival at the bottom.
         simulation.addEvent(new RunEnd(time.addSeconds(connection.getTravelTime()), athlete, connection));
     }

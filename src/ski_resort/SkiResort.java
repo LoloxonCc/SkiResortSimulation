@@ -26,4 +26,13 @@ public class SkiResort {
 
         return i;
     }
+
+    public int getTotalConnectionsCount() {
+        int i = 0;
+        for(Node station : stations)
+            for(Lift lift : station.getLifts())
+                i++;
+
+        return i;
+    }
 }

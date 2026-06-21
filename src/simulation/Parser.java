@@ -1,5 +1,8 @@
 package simulation;
 
+import athletes.CollectorAthlete;
+import athletes.GreedyAthlete;
+import athletes.LocalAthlete;
 import ski_resort.Node;
 import ski_resort.SkiResort;
 import ski_resort.SkiSlope;
@@ -115,11 +118,24 @@ public class Parser {
             }
 
             for(int j = 0; j < m; j++) {
-                athletes[currentAthleteCount] = new Athlete(
+                if(type == 'L')
+                    athletes[currentAthleteCount] = new LocalAthlete(
                         skillLevel, spontaneityCoefficient, s,
                         skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
                         time.addSeconds(j * interval), currentAthleteCount, boredomCoefficient,
-                        type, boredomWeight);
+                        boredomWeight);
+                else if(type == 'K')
+                    athletes[currentAthleteCount] = new CollectorAthlete(
+                            skillLevel, spontaneityCoefficient, s,
+                            skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
+                            time.addSeconds(j * interval), currentAthleteCount, boredomCoefficient,
+                            boredomWeight);
+                else
+                    athletes[currentAthleteCount] = new GreedyAthlete(
+                            skillLevel, spontaneityCoefficient, s,
+                            skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
+                            time.addSeconds(j * interval), currentAthleteCount, boredomCoefficient,
+                            boredomWeight);
                 currentAthleteCount++;
             }
         }

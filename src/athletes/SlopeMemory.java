@@ -1,8 +1,15 @@
 package athletes;
 
 public class SlopeMemory {
-    private double lastBoredomLevel = 0.0;
-    private int lastDescentNumber = 0;
+    private double lastBoredomLevel;
+    private int lastDescentNumber;
+    private int descentCount;
+
+    public SlopeMemory() {
+        lastBoredomLevel = 0.0;
+        lastDescentNumber = 0;
+        descentCount = 0;
+    }
 
     public double getLastBoredomLevel() {
         return lastBoredomLevel;
@@ -18,5 +25,13 @@ public class SlopeMemory {
 
     public void setLastDescentNumber(int lastDescentNumber) {
         this.lastDescentNumber = lastDescentNumber;
+    }
+
+    public int getDescentCount() {
+        return descentCount;
+    }
+
+    public void increaseDescentCount() {
+        descentCount++;
     }
 }
