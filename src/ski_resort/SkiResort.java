@@ -21,7 +21,7 @@ public class SkiResort {
     public int getTotalSkiSlopesCount() {
         int i = 0;
         for (Node station : stations)
-            for(SkiSlope slope : station.getSkiSlopes())
+            for(SkiSlope skiSlope : station.getSkiSlopes())
                 i++;
 
         return i;
@@ -29,9 +29,12 @@ public class SkiResort {
 
     public int getTotalConnectionsCount() {
         int i = 0;
-        for(Node station : stations)
-            for(Lift lift : station.getLifts())
+        for(Node station : stations) {
+            for (Lift lift : station.getLifts())
                 i++;
+            for (SkiSlope skiSlope : station.getSkiSlopes())
+                i++;
+        }
 
         return i;
     }
