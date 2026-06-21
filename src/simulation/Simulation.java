@@ -3,14 +3,14 @@ package simulation;
 import events.Event;
 import events.LiftWorkStart;
 import events.AthleteArrival;
-import queues.EventQueue;
-import queues.EventQueueList;
+import queues.EventPair;
 import ski_resort.SkiResort;
 import ski_resort.SkiSlope;
 import ski_resort.Lift;
 import ski_resort.Node;
 import athletes.Athlete;
 
+import java.util.PriorityQueue;
 import java.util.Random;
 
 // The core class of the ski resort simulation. Manages its global state and connect all parts of the system.
@@ -22,16 +22,18 @@ public class Simulation {
     private final Time comebackTime;
     private final Time simulationEndTime;
     private final Random generator;
-    private final EventQueue eventQueue;
+    private final PriorityQueue<EventPair> eventQueue;
+    private long eventCounter;
 
     public Simulation(Time simulationStartTime, Time comebackTime, Time simulationEndTime, SkiResort skiResort, Athlete[] athletes) {
         this.simulationStartTime = simulationStartTime;
         this.simulationEndTime = simulationEndTime;
         this.comebackTime = comebackTime;
         this.generator = new Random();
-        this.eventQueue = new EventQueueList();
+        this.eventQueue = new PriorityQueue<>();
         this.skiResort = skiResort;
         this.athletes = athletes;
+        this.eventCounter = 0;
     }
 
     public SkiResort getSkiResort() {
@@ -55,7 +57,7 @@ public class Simulation {
     }
 
     public void addEvent(Event event) {
-        eventQueue.add(event);
+        eventQueue.add(new EventPair(event, eventCounter++));
     }
 
     // Method responsible for printing statistics for all lifts and ski runs.
@@ -67,7 +69,7 @@ public class Simulation {
 
         for(Node station : skiResort.getStations())
             for (Lift lift : station.getLifts())
-                System.out.println(lift);
+                System.out.println(lift.toString(this));
     }
 
     public void simulate() {
@@ -79,10 +81,19 @@ public class Simulation {
         for(Node station : skiResort.getStations())
             addEvent(new LiftWorkStart(simulationStartTime, station.getLifts()));
 
-        while(!eventQueue.empty())
-            eventQueue.first().perform(this);
+        while(!eventQueue.isEmpty())
+            getNextEvent().perform(this);
 
         System.out.println(simulationEndTime + ": Simulation ended!");
         endMessage();
+    }
+
+    public Event getNextEvent() {
+        EventPair nextPair = eventQueue.poll();
+
+        if (nextPair != null)
+            return nextPair.getEvent();
+
+        return null;
     }
 }

@@ -38,9 +38,7 @@ public abstract class Connection {
     }
 
     public String toString() {
-        String out = "\n";
-        out += number + " completed " + athleteCounter + " runs.\n";
-        return out;
+        return number + ":\nCompleted " + athleteCounter + " runs.\n";
     }
 
     public abstract boolean isLift();

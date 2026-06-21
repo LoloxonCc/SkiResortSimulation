@@ -23,9 +23,9 @@ public class SkiSlope extends Connection {
     }
 
     public String toString() {
-        String out = "Ski run ";
+        String out = "Ski slope ";
         out += super.toString();
-        out += "Surface levelling is " + calculateSurfaceLevelling() + ".";
+        out += "Surface levelling is now " + String.format("%.2f", calculateSurfaceLevelling()) + ".";
         return out;
     }
 
