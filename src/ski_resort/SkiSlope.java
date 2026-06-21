@@ -44,7 +44,9 @@ public class SkiSlope extends Connection {
 
     // Calculates cumulative attractiveness for the athlete using formulae given in the project description.
     public double calculateCumulativeAttractiveness(Athlete athlete) {
-        return athlete.getSkillAdjustmentWeight() * calculateDifficultyAdjustment(athlete.getSkillLevel()) + athlete.getSurfaceLevellingWeight() * calculateSurfaceLevelling();
+        return athlete.getSkillAdjustmentWeight() * calculateDifficultyAdjustment(athlete.getSkillLevel()) +
+                athlete.getSurfaceLevellingWeight() * calculateSurfaceLevelling() +
+                athlete.getBoredomWeight() * (1 - athlete.getCurrentBoredom(this.getNumber()));
     }
 
     @Override

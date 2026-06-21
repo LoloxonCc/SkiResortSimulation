@@ -17,4 +17,13 @@ public class SkiResort {
     public Node[] getStations() {
         return stations.clone();
     }
+
+    public int getTotalSkiSlopesCount() {
+        int i = 0;
+        for (Node station : stations)
+            for(SkiSlope slope : station.getSkiSlopes())
+                i++;
+
+        return i;
+    }
 }

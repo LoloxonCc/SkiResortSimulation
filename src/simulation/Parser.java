@@ -78,6 +78,8 @@ public class Parser {
             int m = lineScanner.nextInt();
             int skillLevel = lineScanner.nextInt();
             double spontaneityCoefficient = lineScanner.nextDouble();
+            double boredomCoefficient = lineScanner.nextDouble();
+            char type = lineScanner.next().charAt(0);
             String s;
             if(lineScanner.hasNext())
                 s = "s";
@@ -91,6 +93,7 @@ public class Parser {
 
             double skillAdjustmentWeight = lineScanner.nextDouble();
             double surfaceLevellingWeight = lineScanner.nextDouble();
+            double boredomWeight = lineScanner.nextDouble();
 
             line = inputScanner.nextLine();
             lineScanner.close();
@@ -115,8 +118,8 @@ public class Parser {
                 athletes[currentAthleteCount] = new Athlete(
                         skillLevel, spontaneityCoefficient, s,
                         skillAdjustmentWeight, surfaceLevellingWeight, stationId, skiResort,
-                        time.addSeconds(j * interval), currentAthleteCount
-                );
+                        time.addSeconds(j * interval), currentAthleteCount, boredomCoefficient,
+                        type, boredomWeight);
                 currentAthleteCount++;
             }
         }

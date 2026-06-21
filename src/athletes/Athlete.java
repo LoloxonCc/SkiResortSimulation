@@ -16,12 +16,18 @@ public class Athlete {
     private final boolean tracked;
     private final double skillAdjustmentWeight;
     private final double surfaceLevellingWeight;
+    private final double boredomCoefficient;
+    private final double boredomWeight;
+    private final char type;
     private final Node startingStation;
     private final Time startTime;
     private final int number;
+    private int totalDescentCount = 0;
+    private final SlopeMemory[] slopeMemories;
 
     public Athlete(int skillLevel, double spontaneityCoefficient, String tracked, double skillAdjustmentWeight,
-                   double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number) {
+                   double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number,
+                   double boredomCoefficient, char type, double boredomWeight) {
         assert skillLevel >= 0 && skillLevel <= 10 : "Wrong skill level!";
         assert spontaneityCoefficient >= 0.0 && spontaneityCoefficient <= 1.0 : "Wrong spontaneity coefficient!";
 
@@ -33,6 +39,15 @@ public class Athlete {
         this.startingStation = skiResort.getStation(stationId);
         this.startTime = startTime;
         this.number = number;
+        this.boredomCoefficient = boredomCoefficient;
+        this.type = type;
+        this.boredomWeight = boredomWeight;
+
+        int totalNumberOfSlopes = skiResort.getTotalSkiSlopesCount();
+        this.slopeMemories = new SlopeMemory[totalNumberOfSlopes];
+        for (int i = 0; i < totalNumberOfSlopes; i++) {
+            this.slopeMemories[i] = new SlopeMemory();
+        }
     }
 
     public double getSkillAdjustmentWeight() {
@@ -136,5 +151,33 @@ public class Athlete {
             return station.getLifts()[chosenConnectionId];
         else
             return station.getSkiSlopes()[chosenConnectionId - station.getLifts().length];
+    }
+
+    public double getCurrentBoredom(int slopeId) {
+        SlopeMemory memory = slopeMemories[slopeId];
+
+        int i = this.totalDescentCount - memory.getLastDescentNumber();
+
+        return memory.getLastBoredomLevel() * Math.pow(1 - this.boredomCoefficient, i);
+    }
+
+    public double getBoredomCoefficient() {
+        return boredomCoefficient;
+    }
+
+    public void increaseTotalDescentCount() {
+        this.totalDescentCount++;
+    }
+
+    public SlopeMemory[] getSlopeMemories() {
+        return slopeMemories;
+    }
+
+    public int getTotalDescentCount() {
+        return totalDescentCount;
+    }
+
+    public double getBoredomWeight() {
+        return boredomWeight;
     }
 }

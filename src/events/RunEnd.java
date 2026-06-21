@@ -1,5 +1,7 @@
 package events;
 
+import athletes.SlopeMemory;
+import simulation.Simulation;
 import ski_resort.Connection;
 import athletes.Athlete;
 import simulation.Time;
@@ -9,6 +11,20 @@ import simulation.Time;
 public class RunEnd extends ConnectionEnd {
     public RunEnd(Time time, Athlete athlete, Connection connection) {
         super(time, athlete, connection);
+    }
+
+    @Override
+    public void perform(Simulation simulation) {
+        super.perform(simulation);
+        double currentBoredom = athlete.getCurrentBoredom(connection.getNumber());
+
+        double newBoredom = athlete.getBoredomCoefficient() + (1 - athlete.getBoredomCoefficient()) * currentBoredom;
+
+        athlete.increaseTotalDescentCount();
+
+        SlopeMemory memory = athlete.getSlopeMemories()[connection.getNumber()];
+        memory.setLastBoredomLevel(newBoredom);
+        memory.setLastDescentNumber(athlete.getTotalDescentCount());
     }
 
     public String getActionDescription() {
