@@ -18,6 +18,7 @@ public class EnterQueue extends AthleteEvent {
     public void perform(Simulation simulation) {
         // Athlete can join the queue only before his comeback time specified in the project description.
         if(time.isEarlierThan(simulation.getComebackTime())) {
+            lift.updateQueueSum(time);
             lift.addToQueue(athlete);
 
             if(athlete.isTracked())

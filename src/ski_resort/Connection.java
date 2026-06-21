@@ -9,14 +9,14 @@ import simulation.Time;
 public abstract class Connection {
     protected final Node startingStation;
     protected final Node endingStation;
-    protected int runCounter;
+    protected int athleteCounter;
     protected final int number;
     protected final int travelTime;
 
     public Connection(int stacja1Id, int stacja2Id, SkiResort skiResort, int number, int travelTime) {
         this.startingStation = skiResort.getStation(stacja1Id);
         this.endingStation = skiResort.getStation(stacja2Id);
-        this.runCounter = 0;
+        this.athleteCounter = 0;
         this.number = number;
         this.travelTime = travelTime;
     }
@@ -33,13 +33,13 @@ public abstract class Connection {
         return travelTime;
     }
 
-    public void incrementRunCounter() {
-        runCounter++;
+    public void incrementAthleteCounter() {
+        athleteCounter++;
     }
 
     public String toString() {
-        String out = "";
-        out += number + " completed " + runCounter + " runs.";
+        String out = "\n";
+        out += number + " completed " + athleteCounter + " runs.\n";
         return out;
     }
 

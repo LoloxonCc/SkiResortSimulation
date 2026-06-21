@@ -15,11 +15,11 @@ public class Lift extends Connection {
     private final LiftQueue queue;
 
     public Lift(int station1Id, int station2Id, int timeInterval, int maxGroupSize,
-                int liftTime, SkiResort skiResort, int number) {
+                int liftTime, SkiResort skiResort, int number, Time simulationStartTime) {
         super(station1Id, station2Id, skiResort, number, liftTime);
         this.timeInterval = timeInterval;
         this.maxGroupSize = maxGroupSize;
-        this.queue = new LiftQueueList();
+        this.queue = new LiftQueueList(simulationStartTime);
     }
 
     public int getTimeInterval() {
@@ -38,9 +38,12 @@ public class Lift extends Connection {
         return queue;
     }
 
-    public String toString() {
+    public String toString(Simulation simulation) {
         String out = "Lift ";
         out += super.toString();
+        out += " Max queue length " + queue.getMaxSize() + ".\n";
+        out += " Average queue length " + queue.calculateAverageSize(simulation.getSimulationEndTime(), simulation.getSimulationStartTime()) + ".\n";
+        out += " Percentage of occupied places " + calculateOccupiedPlacesPercentage(simulation) + ".\n";
         return out;
     }
 
@@ -56,5 +59,20 @@ public class Lift extends Connection {
     @Override
     public void scheduleEvent(Simulation simulation, Time time, Athlete athlete) {
         simulation.addEvent(new EnterQueue(time, athlete, this));
+    }
+
+    private double calculateOccupiedPlacesPercentage(Simulation simulation) {
+        int durationInSeconds = simulation.getComebackTime().toSeconds() - simulation.getSimulationStartTime().toSeconds();
+
+        int liftDeparturesCount = durationInSeconds / timeInterval;
+
+        int maxPassengerCount = liftDeparturesCount * maxGroupSize;
+        if (maxPassengerCount == 0) return 0.0;
+
+        return ((double) athleteCounter / (double) maxPassengerCount) * 100.0;
+    }
+
+    public void updateQueueSum(Time time) {
+        queue.updateSum(time);
     }
 }

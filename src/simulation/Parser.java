@@ -31,7 +31,7 @@ public class Parser {
         return stations;
     }
 
-    private static void readLifts(Scanner inputScanner, SkiResort skiResort, int n) {
+    private static void readLifts(Scanner inputScanner, SkiResort skiResort, int n, Time simulationStartTime) {
         for(int i = 0; i < n; i++) {
             String line = inputScanner.nextLine();
             Scanner lineScanner = new Scanner(line);
@@ -42,7 +42,7 @@ public class Parser {
             int maxGroupSize = lineScanner.nextInt();
             int liftTime = lineScanner.nextInt();
 
-            skiResort.getStation(station1Id).addLift(new Lift(station1Id, station2Id, timeInterval, maxGroupSize, liftTime, skiResort, i));
+            skiResort.getStation(station1Id).addLift(new Lift(station1Id, station2Id, timeInterval, maxGroupSize, liftTime, skiResort, i, simulationStartTime));
             lineScanner.close();
         }
     }
@@ -57,10 +57,10 @@ public class Parser {
             int station2Id = lineScanner.nextInt();
             int difficultyLevel = lineScanner.nextInt();
             int runTime = lineScanner.nextInt();
-            double bassicAtractiveness = lineScanner.nextDouble();
+            double basicAttractiveness = lineScanner.nextDouble();
             double bumpsResistance = lineScanner.nextDouble();
 
-            skiResort.getStation(station1Id).addSkiSlope(new SkiSlope(station1Id, station2Id, difficultyLevel, runTime, bassicAtractiveness, bumpsResistance, skiResort, i));
+            skiResort.getStation(station1Id).addSkiSlope(new SkiSlope(station1Id, station2Id, difficultyLevel, runTime, basicAttractiveness, bumpsResistance, skiResort, i));
             lineScanner.close();
         }
     }
@@ -141,7 +141,7 @@ public class Parser {
 
         n = inputScanner.nextInt();
         inputScanner.nextLine();
-        readLifts(inputScanner, skiResort, n);
+        readLifts(inputScanner, skiResort, n, simulationStartTime);
         if (inputScanner.hasNextLine()) inputScanner.nextLine();
 
         n = inputScanner.nextInt();

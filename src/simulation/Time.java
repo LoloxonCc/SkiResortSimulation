@@ -53,7 +53,7 @@ public class Time {
         return new Time(newH, newM, newS);
     }
 
-    private int toSeconds() {
+    public int toSeconds() {
         return h * 3600 + m * 60 +s;
     }
 

@@ -14,7 +14,7 @@ public abstract class ConnectionStart extends ConnectionAthleteEvent {
     }
 
     public void perform(Simulation simulation) {
-        connection.incrementRunCounter();
+        connection.incrementAthleteCounter();
         if(athlete.isTracked())
             System.out.println(message());
     }

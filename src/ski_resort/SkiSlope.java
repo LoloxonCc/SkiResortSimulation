@@ -25,6 +25,7 @@ public class SkiSlope extends Connection {
     public String toString() {
         String out = "Ski run ";
         out += super.toString();
+        out += "Surface levelling is " + calculateSurfaceLevelling() + ".";
         return out;
     }
 
@@ -39,7 +40,7 @@ public class SkiSlope extends Connection {
 
     // Calculates surface levelling using formulae given in the project description.
     private double calculateSurfaceLevelling() {
-        return basicAttractiveness + (1.0 - basicAttractiveness) * Math.pow(bumpsResistance, runCounter);
+        return basicAttractiveness + (1.0 - basicAttractiveness) * Math.pow(bumpsResistance, athleteCounter);
     }
 
     // Calculates cumulative attractiveness for the athlete using formulae given in the project description.
