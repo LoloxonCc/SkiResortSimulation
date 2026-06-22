@@ -4,7 +4,7 @@ import simulation.Simulation;
 import simulation.Time;
 import ski_resort.*;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class CollectorAthlete extends Athlete {
@@ -15,7 +15,7 @@ public class CollectorAthlete extends Athlete {
                         double boredomCoefficient, double boredomWeight) {
         super(skillLevel, spontaneityCoefficient, tracked, skillAdjustmentWeight, surfaceLevellingWeight, stationId,
                 skiResort, startTime, number, boredomCoefficient, boredomWeight);
-        tripPlan = new LinkedList<>();
+        tripPlan = new ArrayDeque<>();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class CollectorAthlete extends Athlete {
         boolean[] visited = new boolean[simulation.getSkiResort().getTotalConnectionsCount()];
         Connection[] parent = new Connection[simulation.getSkiResort().getTotalConnectionsCount()];
         int[] distance = new int[simulation.getSkiResort().getTotalConnectionsCount()];
-        Queue<Connection> queueBFS = new LinkedList<>();
+        Queue<Connection> queueBFS = new ArrayDeque<>();
         for(SkiSlope skiSlope : station.getSkiSlopes()) {
             queueBFS.add(skiSlope);
             visited[skiSlope.getNumber()] = true;
@@ -85,7 +85,7 @@ public class CollectorAthlete extends Athlete {
             }
         }
 
-        LinkedList<Connection> path = new LinkedList<>();
+        ArrayDeque<Connection> path = new ArrayDeque<>();
         Connection current = targetSkiSlope;
 
         while (current != null) {
