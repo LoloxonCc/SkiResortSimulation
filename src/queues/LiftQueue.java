@@ -17,5 +17,5 @@ public interface LiftQueue {
 
     void updateSum(Time time);
 
-    double calculateAverageSize(Time simulationEndTime, Time simulationStartTime);
+    int calculateAverageSize(Time simulationEndTime, Time simulationStartTime);
 }

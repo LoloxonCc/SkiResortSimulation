@@ -14,6 +14,8 @@ public class LiftStart extends ConnectionStart {
 
     public void perform(Simulation simulation) {
         super.perform(simulation);
+
+        athlete.increaseLiftCount(connection.getNumber());
         // Schedules a lift end
         simulation.addEvent(new LiftEnd(time.addSeconds(connection.getTravelTime()), athlete, connection));
     }

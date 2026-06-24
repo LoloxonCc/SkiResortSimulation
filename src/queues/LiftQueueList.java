@@ -10,7 +10,7 @@ public class LiftQueueList implements LiftQueue {
     private LiftQueueElement tail;
     private int currentSize;
     private int maxSize;
-    private long sizeSum;
+    private int sizeSum;
     private Time lastOperationTime;
 
     public LiftQueueList(Time time) {
@@ -60,20 +60,19 @@ public class LiftQueueList implements LiftQueue {
     }
 
     public void updateSum(Time time) {
-        long secondsElapsed = (long) time.toSeconds() - lastOperationTime.toSeconds();
+        int secondsElapsed = time.toSeconds() - lastOperationTime.toSeconds();
         if (secondsElapsed > 0) {
-            this.sizeSum += (long) currentSize * secondsElapsed;
+            this.sizeSum += currentSize * secondsElapsed;
         }
         this.lastOperationTime = time;
     }
 
     @Override
-    public double calculateAverageSize(Time simulationEndTime, Time simulationStartTime) {
+    public int calculateAverageSize(Time simulationEndTime, Time simulationStartTime) {
         updateSum(simulationEndTime);
 
-        long totalTimeInSeconds = simulationEndTime.toSeconds() - simulationStartTime.toSeconds();
+        int totalTimeInSeconds = simulationEndTime.toSeconds() - simulationStartTime.toSeconds();
 
-
-        return (double) sizeSum / (double) totalTimeInSeconds;
+        return sizeSum / totalTimeInSeconds;
     }
 }

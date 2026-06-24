@@ -62,4 +62,20 @@ public class Node {
         skiSlopes[skiSlopesCount] = skiSlope;
         skiSlopesCount++;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public boolean isConnected() {
+        return isConnected;
+    }
 }

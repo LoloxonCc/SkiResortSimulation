@@ -38,4 +38,8 @@ public class SkiResort {
 
         return i;
     }
+
+    public int getTotalLiftsCount() {
+        return getTotalConnectionsCount() - getTotalSkiSlopesCount();
+    }
 }

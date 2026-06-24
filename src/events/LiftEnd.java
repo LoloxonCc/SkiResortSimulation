@@ -1,5 +1,6 @@
 package events;
 
+import simulation.Simulation;
 import ski_resort.Connection;
 import athletes.Athlete;
 import simulation.Time;
@@ -11,7 +12,15 @@ public class LiftEnd extends ConnectionEnd {
         super(time, athlete, connection);
     }
 
-     public String getActionDescription() {
+    @Override
+    public void perform(Simulation simulation) {
+        super.perform(simulation);
+
+        if(athlete.isTracked())
+            athlete.updateLiftReport(connection.getNumber());
+    }
+
+    public String getActionDescription() {
         return " left the lift ";
      }
 }

@@ -5,6 +5,8 @@ import events.RunStart;
 import simulation.Simulation;
 import simulation.Time;
 
+import java.util.ArrayList;
+
 // Represents a ski run connection between two stations in the ski resort.
 
 public class SkiSlope extends Connection {
@@ -58,5 +60,31 @@ public class SkiSlope extends Connection {
     @Override
     public void scheduleEvent(Simulation simulation, Time time, Athlete athlete) {
         simulation.addEvent(new RunStart(time, athlete, this));
+    }
+
+    public int getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public double getBasicAttractiveness() {
+        return basicAttractiveness;
+    }
+
+    public double getBumpsResistance() {
+        return bumpsResistance;
+    }
+
+    public ArrayList<String> parametersMapString() {
+        ArrayList<String> out = new ArrayList<>();
+        out.add("t" + this.number + ": poziom: " + this.difficultyLevel + ", czas: " + this.travelTime + "s");
+        out.add("odporność: " + String.format("%.2f", this.basicAttractiveness) + ", " + String.format("%.5f", this.bumpsResistance));
+        return out;
+    }
+
+    public ArrayList<String> statisticsMapString() {
+        ArrayList<String> out = new ArrayList<>();
+        out.add("t" + number +": śnieg" + String.format("%.2f", this.calculateSurfaceLevelling()));
+        out.add("zjazdy: " + this.athleteCounter);
+        return out;
     }
 }

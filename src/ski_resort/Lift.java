@@ -7,6 +7,8 @@ import athletes.Athlete;
 import simulation.Simulation;
 import simulation.Time;
 
+import java.util.ArrayList;
+
 // Represents a ski lift connection between two stations in the ski resort.
 
 public class Lift extends Connection {
@@ -42,8 +44,8 @@ public class Lift extends Connection {
         String out = "Lift ";
         out += super.toString();
         out += "Max queue length " + queue.getMaxSize() + ".\n";
-        out += "Average queue length " + String.format("%.2f", queue.calculateAverageSize(simulation.getSimulationEndTime(), simulation.getSimulationStartTime())) + ".\n";
-        out += "Percentage of occupied places " + String.format("%.2f", calculateOccupiedPlacesPercentage(simulation)) + ".";
+        out += "Average queue length " + queue.calculateAverageSize(simulation.getSimulationEndTime(), simulation.getSimulationStartTime()) + ".\n";
+        out += "Percentage of occupied places " + String.format("%.0f", calculateOccupiedPlacesPercentage(simulation)) + ".";
         return out;
     }
 
@@ -62,17 +64,36 @@ public class Lift extends Connection {
     }
 
     private double calculateOccupiedPlacesPercentage(Simulation simulation) {
+        int maxPassengerCapacity = this.maxPassengerCapacity(simulation);
+        if (maxPassengerCapacity == 0) return 0.0;
+
+        return ((double) athleteCounter / (double) maxPassengerCapacity) * 100.0;
+    }
+
+    private int maxPassengerCapacity(Simulation simulation) {
         int durationInSeconds = simulation.getComebackTime().toSeconds() - simulation.getSimulationStartTime().toSeconds();
 
         int liftDeparturesCount = durationInSeconds / timeInterval;
 
-        int maxPassengerCount = liftDeparturesCount * maxGroupSize;
-        if (maxPassengerCount == 0) return 0.0;
-
-        return ((double) athleteCounter / (double) maxPassengerCount) * 100.0;
+        return liftDeparturesCount * maxGroupSize;
     }
 
     public void updateQueueSum(Time time) {
         queue.updateSum(time);
+    }
+
+    public ArrayList<String> parametersMapString() {
+        ArrayList<String> out = new ArrayList<>();
+        out.add("w" + this.number + ": " + this.maxGroupSize + " os. co " + this.timeInterval + "s");
+        out.add("czas: " + this.travelTime + "s");
+        return out;
+    }
+
+    public ArrayList<String> statisticsMapString(Simulation simulation) {
+        ArrayList<String> out = new ArrayList<>();
+        out.add("w" + this.number + ": kol: " + this.queue.calculateAverageSize(simulation.getSimulationEndTime(), simulation.getSimulationStartTime())
+                + "(śr), " + this.queue.getMaxSize() + "(maks)");
+        out.add("wjazdy: " + this.athleteCounter + " / " + this.maxPassengerCapacity(simulation) + "(" + String.format("%.0f", calculateOccupiedPlacesPercentage(simulation)) + "%)");
+        return out;
     }
 }

@@ -3,6 +3,12 @@ package simulation;
 import events.Event;
 import events.LiftWorkStart;
 import events.AthleteArrival;
+import kadra.mapki.GeneratorMapek;
+import kadra.mapki.pliki.WyjatekSystemuPlikow;
+import kadra.mapki.styl.GruboscKonturu;
+import kadra.mapki.styl.StylKrawedzi;
+import kadra.mapki.styl.StylLinii;
+import kadra.mapki.styl.StylWezla;
 import queues.EventPair;
 import ski_resort.SkiResort;
 import ski_resort.SkiSlope;
@@ -10,8 +16,11 @@ import ski_resort.Lift;
 import ski_resort.Node;
 import athletes.Athlete;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 // The core class of the ski resort simulation. Manages its global state and connect all parts of the system.
 
@@ -61,7 +70,7 @@ public class Simulation {
     }
 
     // Method responsible for printing statistics for all lifts and ski runs.
-    public void endMessage() {
+    private void endMessage() {
         System.out.println("End message:");
         for(Node station : skiResort.getStations())
             for(SkiSlope skiSlope : station.getSkiSlopes())
@@ -86,6 +95,7 @@ public class Simulation {
 
         System.out.println(simulationEndTime + ": Simulation ended!");
         endMessage();
+        visualise();
     }
 
     public Event getNextEvent() {
@@ -95,5 +105,100 @@ public class Simulation {
             return nextPair.getEvent();
 
         return null;
+    }
+
+    private void visualise() {
+        try {
+            GeneratorMapek generatorMapek = new GeneratorMapek("wygenerowaneMapki");
+            firstMap(generatorMapek);
+            secondMap(generatorMapek);
+            ArrayList<Athlete> trackedAthletes = Arrays.stream(athletes).filter(Athlete::isTracked).collect(Collectors.toCollection(ArrayList::new));
+            for(Athlete athlete : trackedAthletes)
+                thirdMap(generatorMapek, athlete);
+        }
+        catch (WyjatekSystemuPlikow e) {
+            System.err.println("BŁĄD SYSTEMU PLIKÓW: Nie udało się utworzyć katalogu lub zapisać mapki.");
+            System.err.println("Sugestia: Upewnij się, że podałeś poprawną ścieżkę do katalogu oraz " +
+                    "że posiadasz odpowiednie uprawnienia do zapisu w tym miejscu.");
+            e.printStackTrace();
+        }
+    }
+
+    private void firstMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
+        generatorMapek.zeruj();
+
+        for(Node station : skiResort.getStations()) {
+            if(station.isConnected())
+                generatorMapek.dodajWezel(station.getNumber(), station.getX(), station.getY(), new StylWezla(GruboscKonturu.POGRUBIONY));
+            else
+                generatorMapek.dodajWezel(station.getNumber(), station.getX(), station.getY(), new StylWezla(GruboscKonturu.ZWYKLY));
+        }
+
+        for(Node station : skiResort.getStations()) {
+            for(SkiSlope skiSlope : station.getSkiSlopes()) {
+                generatorMapek.dodajKrawedz(station.getNumber(), skiSlope.getEndingStation().getNumber(),
+                        new StylKrawedzi(StylLinii.CIAGLA), skiSlope.parametersMapString());
+            }
+
+            for(Lift lift : station.getLifts()) {
+                generatorMapek.dodajKrawedz(station.getNumber(), lift.getEndingStation().getNumber(),
+                        new StylKrawedzi(StylLinii.PRZERYWANA), lift.parametersMapString());
+            }
+        }
+
+        generatorMapek.tworzMapke("mapka1.tex");
+    }
+
+    private void secondMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
+        generatorMapek.zeruj();
+
+        for(Node station : skiResort.getStations()) {
+            if(station.isConnected())
+                generatorMapek.dodajWezel(station.getNumber(), station.getX(), station.getY(), new StylWezla(GruboscKonturu.POGRUBIONY));
+            else
+                generatorMapek.dodajWezel(station.getNumber(), station.getX(), station.getY(), new StylWezla(GruboscKonturu.ZWYKLY));
+        }
+
+        for(Node station : skiResort.getStations()) {
+            for(SkiSlope skiSlope : station.getSkiSlopes()) {
+                generatorMapek.dodajKrawedz(station.getNumber(), skiSlope.getEndingStation().getNumber(),
+                        new StylKrawedzi(StylLinii.CIAGLA), skiSlope.statisticsMapString());
+            }
+
+            for(Lift lift : station.getLifts()) {
+                generatorMapek.dodajKrawedz(station.getNumber(), lift.getEndingStation().getNumber(),
+                        new StylKrawedzi(StylLinii.PRZERYWANA), lift.statisticsMapString(this));
+            }
+        }
+
+        generatorMapek.tworzMapke("mapka2.tex");
+    }
+
+    private void thirdMap(GeneratorMapek generatorMapek, Athlete athlete) throws WyjatekSystemuPlikow {
+        generatorMapek.zeruj();
+
+        for(Node station : skiResort.getStations()) {
+            if(station.isConnected())
+                generatorMapek.dodajWezel(station.getNumber(), station.getX(), station.getY(), new StylWezla(GruboscKonturu.POGRUBIONY));
+            else
+                generatorMapek.dodajWezel(station.getNumber(), station.getX(), station.getY(), new StylWezla(GruboscKonturu.ZWYKLY));
+        }
+
+        for(Node station : skiResort.getStations()) {
+            for(Lift lift : station.getLifts()) {
+                String report = "w" + lift.getNumber() + "(" + athlete.getLiftCount(lift.getNumber()) + "):"
+                        + athlete.getLiftReport(lift.getNumber());
+                generatorMapek.dodajKrawedz(station.getNumber(), lift.getEndingStation().getNumber(),
+                        new StylKrawedzi(StylLinii.PRZERYWANA), report);
+            }
+            for(SkiSlope skiSlope : station.getSkiSlopes()) {
+                String report = "t" + skiSlope.getNumber() + "(" + athlete.getSlopeCount(skiSlope.getNumber()) + "):"
+                        + athlete.getSlopeReport(skiSlope.getNumber());
+                generatorMapek.dodajKrawedz(station.getNumber(), skiSlope.getEndingStation().getNumber(),
+                        new StylKrawedzi(StylLinii.CIAGLA), report);
+            }
+        }
+
+        generatorMapek.tworzMapke("mapka3_" + athlete.getNumber() + ".tex");
     }
 }

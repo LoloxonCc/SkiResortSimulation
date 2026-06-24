@@ -19,8 +19,10 @@ public abstract class Athlete {
     protected final Node startingStation;
     protected final Time startTime;
     protected final int number;
-    protected int totalDescentCount = 0;
+    protected int totalDescentCount;
     protected final SlopeMemory[] slopeMemories;
+    protected int connectionsCount;
+    protected final LiftMemory[] liftMemories;
 
     public Athlete(int skillLevel, double spontaneityCoefficient, String tracked, double skillAdjustmentWeight,
                    double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number,
@@ -38,12 +40,18 @@ public abstract class Athlete {
         this.number = number;
         this.boredomCoefficient = boredomCoefficient;
         this.boredomWeight = boredomWeight;
+        this.totalDescentCount = 0;
 
         int totalNumberOfSlopes = skiResort.getTotalSkiSlopesCount();
         this.slopeMemories = new SlopeMemory[totalNumberOfSlopes];
-        for (int i = 0; i < totalNumberOfSlopes; i++) {
+        for (int i = 0; i < totalNumberOfSlopes; i++)
             this.slopeMemories[i] = new SlopeMemory();
-        }
+
+        this.connectionsCount = 0;
+        int totalNumberOfLift = skiResort.getTotalLiftsCount();
+        this.liftMemories = new LiftMemory[totalNumberOfLift];
+        for (int i = 0; i < totalNumberOfLift; i++)
+            this.liftMemories[i] = new LiftMemory();
     }
 
     public double getSkillAdjustmentWeight() {
@@ -111,4 +119,36 @@ public abstract class Athlete {
     }
 
     public abstract void decision(Time time, Node station, Simulation simulation);
+
+    public void increaseConnectionsCount() {
+        connectionsCount++;
+    }
+
+    public void updateSlopeReport(int slopeId) {
+        this.slopeMemories[slopeId].updateReport(connectionsCount);
+    }
+
+    public void updateLiftReport(int liftId) {
+        this.liftMemories[liftId].updateReport(connectionsCount);
+    }
+
+    public void increaseLiftCount(int liftId) {
+        this.liftMemories[liftId].increaseLiftCount();
+    }
+
+    public int getLiftCount(int liftId) {
+        return liftMemories[liftId].getLiftCount();
+    }
+
+    public String getLiftReport(int liftId) {
+        return liftMemories[liftId].getReport();
+    }
+
+    public int getSlopeCount(int slopeId) {
+        return slopeMemories[slopeId].getDescentCount();
+    }
+
+    public String getSlopeReport(int slopeId) {
+        return slopeMemories[slopeId].getReport();
+    }
 }

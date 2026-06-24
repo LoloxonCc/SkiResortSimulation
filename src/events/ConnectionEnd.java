@@ -16,8 +16,10 @@ public abstract class ConnectionEnd extends ConnectionAthleteEvent {
     public void perform(Simulation simulation) {
         athlete.decision(time, connection.getEndingStation(), simulation);
 
-        if(athlete.isTracked())
+        if(athlete.isTracked()) {
+            athlete.increaseConnectionsCount();
             System.out.println(message());
+        }
     }
 
     protected String message() {
