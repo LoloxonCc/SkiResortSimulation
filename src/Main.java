@@ -1,3 +1,4 @@
+import kadra.mapki.pliki.WyjatekSystemuPlikow;
 import simulation.Parser;
 import simulation.Time;
 import simulation.Simulation;
@@ -12,12 +13,20 @@ public class Main {
         Time comebackTime = new Time("15:00:00");
         Time simulationEnd = new Time("16:00:00");
         Parser parser = new Parser();
-        System.out.println("Provide input data for a ski resort simulation:");
-        Simulation simulation = parser.readData(simulationStart, comebackTime, simulationEnd, args[0]);
         try {
+            System.out.println("Provide input data for a ski resort simulation:");
+            Simulation simulation = parser.readData(simulationStart, comebackTime, simulationEnd, args[0]);
+
             simulation.simulate();
-        }
-        catch(Exception e) {
+
+        } catch (WyjatekSystemuPlikow e) {
+            System.err.println("File System Error: Catalog or file could not be created.");
+            System.err.println("Check validity of path and whether you have permission to use it.");
+            e.printStackTrace();
+
+        } catch (Exception e) {
+            System.err.println("Critical Error: There was unexpected error in the program logic.");
+            System.err.println("Report it to the developer team with the following stack trace:");
             e.printStackTrace();
         }
     }

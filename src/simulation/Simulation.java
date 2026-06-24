@@ -16,10 +16,7 @@ import ski_resort.Lift;
 import ski_resort.Node;
 import athletes.Athlete;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // The core class of the ski resort simulation. Manages its global state and connect all parts of the system.
@@ -74,16 +71,25 @@ public class Simulation {
     // Method responsible for printing statistics for all lifts and ski runs.
     private void endMessage() {
         System.out.println("End message:");
-        for(Node station : skiResort.getStations())
-            for(SkiSlope skiSlope : station.getSkiSlopes())
-                System.out.println(skiSlope);
 
+        System.out.println("Slopes statistics:");
+        ArrayList<SkiSlope> skiSlopes = new ArrayList<>();
         for(Node station : skiResort.getStations())
-            for (Lift lift : station.getLifts())
-                System.out.println(lift.toString(this));
+            skiSlopes.addAll(Arrays.asList(station.getSkiSlopes()));
+        skiSlopes.sort(Comparator.comparingInt(SkiSlope::getNumber));
+        for(SkiSlope skiSlope : skiSlopes)
+            System.out.println(skiSlope.toString());
+
+        System.out.println("Lifts statistics:");
+        ArrayList<Lift> lifts = new ArrayList<>();
+        for(Node station : skiResort.getStations())
+            lifts.addAll(Arrays.asList(station.getLifts()));
+        lifts.sort(Comparator.comparingInt(Lift::getNumber));
+        for(Lift lift : lifts)
+            System.out.println(lift.toString(this));
     }
 
-    public void simulate() {
+    public void simulate() throws WyjatekSystemuPlikow {
         System.out.println(simulationStartTime + ": Simulation started!");
 
         // Initialization of athletes arrivals and first lift departures.
@@ -109,20 +115,17 @@ public class Simulation {
         return null;
     }
 
-    private void visualise() {
-        try {
-            GeneratorMapek generatorMapek = new GeneratorMapek(mapsPath);
-            firstMap(generatorMapek);
-            secondMap(generatorMapek);
-            ArrayList<Athlete> trackedAthletes = Arrays.stream(athletes).filter(Athlete::isTracked).collect(Collectors.toCollection(ArrayList::new));
-            for(Athlete athlete : trackedAthletes)
-                thirdMap(generatorMapek, athlete);
-        }
-        catch (WyjatekSystemuPlikow e) {
-            System.err.println("BŁĄD SYSTEMU PLIKÓW: Nie udało się utworzyć katalogu lub zapisać mapki.");
-            System.err.println("Sugestia: Upewnij się, że podałeś poprawną ścieżkę do katalogu oraz " +
-                    "że posiadasz odpowiednie uprawnienia do zapisu w tym miejscu.");
-        }
+    private void visualise() throws WyjatekSystemuPlikow {
+        GeneratorMapek generatorMapek = new GeneratorMapek(mapsPath);
+        firstMap(generatorMapek);
+        secondMap(generatorMapek);
+
+        ArrayList<Athlete> trackedAthletes = Arrays.stream(athletes)
+                .filter(Athlete::isTracked)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        for(Athlete athlete : trackedAthletes)
+            thirdMap(generatorMapek, athlete);
     }
 
     private void firstMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
@@ -148,6 +151,7 @@ public class Simulation {
         }
 
         generatorMapek.tworzMapke("mapka1.tex");
+        System.out.println("First map created.");
     }
 
     private void secondMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
@@ -173,6 +177,7 @@ public class Simulation {
         }
 
         generatorMapek.tworzMapke("mapka2.tex");
+        System.out.println("Second map created.");
     }
 
     private void thirdMap(GeneratorMapek generatorMapek, Athlete athlete) throws WyjatekSystemuPlikow {
@@ -201,5 +206,6 @@ public class Simulation {
         }
 
         generatorMapek.tworzMapke("mapka3_" + athlete.getNumber() + ".tex");
+        System.out.println("Map created for an athlete " + athlete.getNumber() + ".");
     }
 }

@@ -15,20 +15,20 @@ public class RunEnd extends ConnectionEnd {
 
     @Override
     public void perform(Simulation simulation) {
-        super.perform(simulation);
-
         double currentBoredom = athlete.getCurrentBoredom(connection.getNumber());
 
         double newBoredom = athlete.getBoredomCoefficient() + (1 - athlete.getBoredomCoefficient()) * currentBoredom;
 
         athlete.increaseTotalDescentCount();
-
+        
         SlopeMemory memory = athlete.getSlopeMemories()[connection.getNumber()];
         memory.setLastBoredomLevel(newBoredom);
         memory.setLastDescentNumber(athlete.getTotalDescentCount());
 
         if(athlete.isTracked())
             athlete.updateSlopeReport(connection.getNumber());
+
+        super.perform(simulation);
     }
 
     public String getActionDescription() {

@@ -44,4 +44,12 @@ public abstract class Connection {
     public abstract boolean isLift();
 
     public abstract void scheduleEvent(Simulation simulation, Time time, Athlete athlete);
+
+    public int getAthleteCounter() {
+        return athleteCounter;
+    }
+
+    public Node getStartingStation() {
+        return startingStation;
+    }
 }

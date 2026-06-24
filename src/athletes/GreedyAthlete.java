@@ -4,10 +4,7 @@ import simulation.Simulation;
 import simulation.Time;
 import ski_resort.*;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class GreedyAthlete extends Athlete {
     private final Queue<Connection> tripPlan;
@@ -42,60 +39,25 @@ public class GreedyAthlete extends Athlete {
     }
 
     public void prepareTripPlan(Node station, Simulation simulation) {
-        Map<Connection, Boolean> visited = new HashMap<>();
-        Map<Connection, Connection> parent = new HashMap<>();
-
-        Queue<Connection> queueBFS = new ArrayDeque<>();
-
-        for(SkiSlope skiSlope : station.getSkiSlopes()) {
-            queueBFS.add(skiSlope);
-            visited.put(skiSlope, true);
-            parent.put(skiSlope, null);
-        }
-        for(Lift lift : station.getLifts()) {
-            queueBFS.add(lift);
-            visited.put(lift, true);
-            parent.put(lift, null);
-        }
-
-        while(!queueBFS.isEmpty()) {
-            Connection connection = queueBFS.poll();
-            Node nextStation = connection.getEndingStation();
-
-            for(SkiSlope skiSlope : nextStation.getSkiSlopes()) {
-                if(!visited.getOrDefault(skiSlope, false)) {
-                    queueBFS.add(skiSlope);
-                    visited.put(skiSlope, true);
-                    parent.put(skiSlope, connection);
-                }
-            }
-            for(Lift lift : nextStation.getLifts()) {
-                if(!visited.getOrDefault(lift, false)) {
-                    queueBFS.add(lift);
-                    visited.put(lift, true);
-                    parent.put(lift, connection);
-                }
-            }
-        }
-
+        BfsAlgorithm bfs = new BfsAlgorithm();
         SkiSlope targetSkiSlope = null;
+
         for(Node node : simulation.getSkiResort().getStations()) {
             for(SkiSlope skiSlope : node.getSkiSlopes()) {
-                if(targetSkiSlope == null)
+                if(targetSkiSlope == null) {
                     targetSkiSlope = skiSlope;
-                else if(skiSlope.calculateCumulativeAttractiveness(this) > targetSkiSlope.calculateCumulativeAttractiveness(this))
+                } else if(skiSlope.calculateCumulativeAttractiveness(this) > targetSkiSlope.calculateCumulativeAttractiveness(this)) {
                     targetSkiSlope = skiSlope;
+                }
             }
         }
 
-        ArrayDeque<Connection> path = new ArrayDeque<>();
-        Connection current = targetSkiSlope;
-
-        while (current != null) {
-            path.addFirst(current);
-            current = parent.get(current);
+        if (targetSkiSlope != null) {
+            List<Connection> path = bfs.findShortestPath(station, targetSkiSlope.getStartingStation());
+            if (path != null) {
+                tripPlan.addAll(path);
+            }
+            tripPlan.add(targetSkiSlope);
         }
-
-        tripPlan.addAll(path);
     }
 }
