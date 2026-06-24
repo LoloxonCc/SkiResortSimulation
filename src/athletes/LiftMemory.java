@@ -2,11 +2,11 @@ package athletes;
 
 public class LiftMemory {
     private int liftCount;
-    private String report;
+    private final StringBuilder report;
 
     public LiftMemory() {
         this.liftCount = 0;
-        this.report = "";
+        this.report = new StringBuilder();
     }
 
     public int getLiftCount() {
@@ -14,7 +14,7 @@ public class LiftMemory {
     }
 
     public String getReport() {
-        return report;
+        return report.toString();
     }
 
     public void increaseLiftCount() {
@@ -22,9 +22,9 @@ public class LiftMemory {
     }
 
     public void updateReport(int descentNumber) {
-        if(this.report.isEmpty())
-            this.report = "" + descentNumber;
-        else
-            this.report += "," + descentNumber;
+        if (!report.isEmpty()) {
+            report.append(",");
+        }
+        report.append(descentNumber);
     }
 }

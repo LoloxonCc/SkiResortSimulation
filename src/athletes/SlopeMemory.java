@@ -4,13 +4,13 @@ public class SlopeMemory {
     private double lastBoredomLevel;
     private int lastDescentNumber;
     private int descentCount;
-    private String report;
+    private final StringBuilder report;
 
     public SlopeMemory() {
         lastBoredomLevel = 0.0;
         lastDescentNumber = 0;
         descentCount = 0;
-        report = "";
+        report = new StringBuilder();
     }
 
     public double getLastBoredomLevel() {
@@ -38,13 +38,12 @@ public class SlopeMemory {
     }
 
     public void updateReport(int descentNumber) {
-        if(this.report.isEmpty())
-            this.report = "" + descentNumber;
-        else
-            this.report += "," + descentNumber;
+        if(!report.isEmpty())
+            report.append(",");
+        report.append(descentNumber);
     }
 
     public String getReport() {
-        return report;
+        return report.toString();
     }
 }

@@ -83,7 +83,7 @@ public class SkiSlope extends Connection {
 
     public ArrayList<String> statisticsMapString() {
         ArrayList<String> out = new ArrayList<>();
-        out.add("t" + number +": śnieg" + String.format("%.2f", this.calculateSurfaceLevelling()));
+        out.add("t" + number +": śnieg: " + String.format("%.2f", this.calculateSurfaceLevelling()));
         out.add("zjazdy: " + this.athleteCounter);
         return out;
     }

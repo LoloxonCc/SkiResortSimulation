@@ -33,8 +33,9 @@ public class Simulation {
     private final Random generator;
     private final PriorityQueue<EventPair> eventQueue;
     private long eventCounter;
+    private final String mapsPath;
 
-    public Simulation(Time simulationStartTime, Time comebackTime, Time simulationEndTime, SkiResort skiResort, Athlete[] athletes) {
+    public Simulation(Time simulationStartTime, Time comebackTime, Time simulationEndTime, SkiResort skiResort, Athlete[] athletes, String mapsPath) {
         this.simulationStartTime = simulationStartTime;
         this.simulationEndTime = simulationEndTime;
         this.comebackTime = comebackTime;
@@ -43,6 +44,7 @@ public class Simulation {
         this.skiResort = skiResort;
         this.athletes = athletes;
         this.eventCounter = 0;
+        this.mapsPath = mapsPath;
     }
 
     public SkiResort getSkiResort() {
@@ -109,7 +111,7 @@ public class Simulation {
 
     private void visualise() {
         try {
-            GeneratorMapek generatorMapek = new GeneratorMapek("wygenerowaneMapki");
+            GeneratorMapek generatorMapek = new GeneratorMapek(mapsPath);
             firstMap(generatorMapek);
             secondMap(generatorMapek);
             ArrayList<Athlete> trackedAthletes = Arrays.stream(athletes).filter(Athlete::isTracked).collect(Collectors.toCollection(ArrayList::new));
@@ -120,7 +122,6 @@ public class Simulation {
             System.err.println("BŁĄD SYSTEMU PLIKÓW: Nie udało się utworzyć katalogu lub zapisać mapki.");
             System.err.println("Sugestia: Upewnij się, że podałeś poprawną ścieżkę do katalogu oraz " +
                     "że posiadasz odpowiednie uprawnienia do zapisu w tym miejscu.");
-            e.printStackTrace();
         }
     }
 

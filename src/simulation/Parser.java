@@ -146,7 +146,7 @@ public class Parser {
         return finalAthletes;
     }
 
-    public Simulation readData(Time simulationStartTime, Time comebackTime, Time simulationEndTime) {
+    public Simulation readData(Time simulationStartTime, Time comebackTime, Time simulationEndTime, String mapsPath) {
         Scanner inputScanner = new Scanner(System.in);
 
         int n = inputScanner.nextInt();
@@ -170,6 +170,6 @@ public class Parser {
         Athlete[] athletes = readAthletes(inputScanner, skiResort, n);
 
         inputScanner.close();
-        return new Simulation(simulationStartTime, comebackTime, simulationEndTime, skiResort, athletes);
+        return new Simulation(simulationStartTime, comebackTime, simulationEndTime, skiResort, athletes, mapsPath);
     }
 }

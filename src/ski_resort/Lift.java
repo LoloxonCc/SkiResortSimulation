@@ -45,7 +45,7 @@ public class Lift extends Connection {
         out += super.toString();
         out += "Max queue length " + queue.getMaxSize() + ".\n";
         out += "Average queue length " + queue.calculateAverageSize(simulation.getSimulationEndTime(), simulation.getSimulationStartTime()) + ".\n";
-        out += "Percentage of occupied places " + String.format("%.0f", calculateOccupiedPlacesPercentage(simulation)) + ".";
+        out += "Percentage of occupied places " + String.format("%.0f", calculateOccupiedPlacesPercentage(simulation)) + "%.";
         return out;
     }
 

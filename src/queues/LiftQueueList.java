@@ -73,6 +73,6 @@ public class LiftQueueList implements LiftQueue {
 
         int totalTimeInSeconds = simulationEndTime.toSeconds() - simulationStartTime.toSeconds();
 
-        return sizeSum / totalTimeInSeconds;
+        return (int) Math.round((double) sizeSum / totalTimeInSeconds);
     }
 }
