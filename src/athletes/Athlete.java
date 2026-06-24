@@ -4,6 +4,8 @@ import ski_resort.*;
 import simulation.Time;
 import simulation.Simulation;
 
+import java.util.Random;
+
 /*
     Represents an athlete (skier or snowboarder) participating in the ski resort simulation.
     It is responsible for decision-making process for selecting next connection used by the athlet.
@@ -150,5 +152,14 @@ public abstract class Athlete {
 
     public String getSlopeReport(int slopeId) {
         return slopeMemories[slopeId].getReport();
+    }
+
+    // Sometimes athlete makes a spontaneous choice of a connection that he will use.
+    public Connection spontaneousChoice(Random generator, Node station) {
+        int chosenConnectionId = generator.nextInt(0, station.getLifts().length + station.getSkiSlopes().length);
+        if(chosenConnectionId < station.getLifts().length)
+            return station.getLifts()[chosenConnectionId];
+        else
+            return station.getSkiSlopes()[chosenConnectionId - station.getLifts().length];
     }
 }

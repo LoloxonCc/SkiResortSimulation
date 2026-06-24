@@ -5,6 +5,8 @@ import simulation.Time;
 import ski_resort.*;
 
 import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 
 public class GreedyAthlete extends Athlete {
@@ -21,25 +23,39 @@ public class GreedyAthlete extends Athlete {
     public void decision(Time time, Node station, Simulation simulation) {
         if(!time.isEarlierThan(simulation.getComebackTime()))
             return;
-        if(tripPlan.isEmpty())
-            prepareTripPlan(station, simulation);
+
+        if(tripPlan.isEmpty()) {
+            double chance = simulation.getGenerator().nextDouble();
+
+            if(chance < spontaneityCoefficient) {
+                Connection choice = this.spontaneousChoice(simulation.getGenerator(), station);
+                choice.scheduleEvent(simulation, time, this);
+                return;
+            }
+            else {
+                prepareTripPlan(station, simulation);
+            }
+        }
+
         if(!tripPlan.isEmpty())
             tripPlan.poll().scheduleEvent(simulation, time, this);
     }
 
     public void prepareTripPlan(Node station, Simulation simulation) {
-        boolean[] visited = new boolean[simulation.getSkiResort().getTotalConnectionsCount()];
-        Connection[] parent = new Connection[simulation.getSkiResort().getTotalConnectionsCount()];
+        Map<Connection, Boolean> visited = new HashMap<>();
+        Map<Connection, Connection> parent = new HashMap<>();
+
         Queue<Connection> queueBFS = new ArrayDeque<>();
+
         for(SkiSlope skiSlope : station.getSkiSlopes()) {
             queueBFS.add(skiSlope);
-            visited[skiSlope.getNumber()] = true;
-            parent[skiSlope.getNumber()] = null;
+            visited.put(skiSlope, true);
+            parent.put(skiSlope, null);
         }
         for(Lift lift : station.getLifts()) {
             queueBFS.add(lift);
-            visited[lift.getNumber()] = true;
-            parent[lift.getNumber()] = null;
+            visited.put(lift, true);
+            parent.put(lift, null);
         }
 
         while(!queueBFS.isEmpty()) {
@@ -47,17 +63,17 @@ public class GreedyAthlete extends Athlete {
             Node nextStation = connection.getEndingStation();
 
             for(SkiSlope skiSlope : nextStation.getSkiSlopes()) {
-                if(!visited[skiSlope.getNumber()]) {
+                if(!visited.getOrDefault(skiSlope, false)) {
                     queueBFS.add(skiSlope);
-                    visited[skiSlope.getNumber()] = true;
-                    parent[skiSlope.getNumber()] = connection;
+                    visited.put(skiSlope, true);
+                    parent.put(skiSlope, connection);
                 }
             }
             for(Lift lift : nextStation.getLifts()) {
-                if(!visited[lift.getNumber()]) {
+                if(!visited.getOrDefault(lift, false)) {
                     queueBFS.add(lift);
-                    visited[lift.getNumber()] = true;
-                    parent[lift.getNumber()] = connection;
+                    visited.put(lift, true);
+                    parent.put(lift, connection);
                 }
             }
         }
@@ -77,7 +93,7 @@ public class GreedyAthlete extends Athlete {
 
         while (current != null) {
             path.addFirst(current);
-            current = parent[current.getNumber()];
+            current = parent.get(current);
         }
 
         tripPlan.addAll(path);

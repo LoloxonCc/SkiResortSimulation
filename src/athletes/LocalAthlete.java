@@ -79,13 +79,4 @@ public class LocalAthlete extends Athlete {
 
         return bestConnection;
     }
-
-    // Sometimes athlete makes a spontaneous choice of a connection that he will use.
-    public Connection spontaneousChoice(Random generator, Node station) {
-        int chosenConnectionId = generator.nextInt(0, station.getLifts().length + station.getSkiSlopes().length);
-        if(chosenConnectionId < station.getLifts().length)
-            return station.getLifts()[chosenConnectionId];
-        else
-            return station.getSkiSlopes()[chosenConnectionId - station.getLifts().length];
-    }
 }
