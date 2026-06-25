@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LiftDepartureTest {
 
     private Lift lift;
-    private SkiResort mockResort;
+    private SkiResort skiResort;
     private Time startTime;
 
     @BeforeEach
@@ -23,9 +23,9 @@ class LiftDepartureTest {
                 new Node(500, 0, 0, 0, "s"),
                 new Node(800, 10, 10, 1, "")
         };
-        mockResort = new SkiResort(stations);
+        skiResort = new SkiResort(stations);
 
-        lift = new Lift(0, 1, 10, 3, 120, mockResort, 0, startTime);
+        lift = new Lift(0, 1, 10, 3, 120, skiResort, 0, startTime);
     }
 
     @Test
@@ -34,7 +34,7 @@ class LiftDepartureTest {
 
         for (int i = 0; i < 4; i++) {
             Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5,
-                    0.5, 0, mockResort, startTime, i, 0.1, 0.1);
+                    0.5, 0, skiResort, startTime, i, 0.1, 0.1);
             lift.addToQueue(athlete);
         }
 
@@ -56,7 +56,7 @@ class LiftDepartureTest {
         assertTrue(lift.isQueueEmpty());
 
         for (int i = 0; i < 2; i++) {
-            Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, mockResort, startTime, i, 0.1, 0.1);
+            Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, skiResort, startTime, i, 0.1, 0.1);
             lift.addToQueue(athlete);
         }
 
@@ -76,7 +76,7 @@ class LiftDepartureTest {
     @Test
     void testMaxQueueSizeStatistic() {
         for (int i = 0; i < 4; i++) {
-            Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, mockResort, startTime, i, 0.1, 0.1);
+            Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, skiResort, startTime, i, 0.1, 0.1);
             lift.addToQueue(athlete);
         }
 
@@ -88,7 +88,7 @@ class LiftDepartureTest {
             boardedCount++;
         }
 
-        Athlete lastAthlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, mockResort, startTime, 99, 0.1, 0.1);
+        Athlete lastAthlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, skiResort, startTime, 99, 0.1, 0.1);
         lift.addToQueue(lastAthlete);
 
         assertEquals(4, lift.getMaxQueueSize(), "Maximum queue size should be 4.");

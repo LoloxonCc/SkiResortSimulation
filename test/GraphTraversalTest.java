@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTraversalTest {
 
-    private SkiResort resort;
+    private SkiResort skiResort;
     private BfsAlgorithm bfs;
     private Node n0, n1, n2, n3, n4, n5;
 
@@ -27,26 +27,26 @@ class GraphTraversalTest {
         n5 = new Node(5, 5, 5, 5, "");
 
         Node[] nodes = {n0, n1, n2, n3, n4, n5};
-        resort = new SkiResort(nodes);
+        skiResort = new SkiResort(nodes);
         bfs = new BfsAlgorithm();
         Time t = new Time("09:00:00");
 
-        n0.addLift(new Lift(0, 1, 10, 2, 100, resort, 0, t));
+        n0.addLift(new Lift(0, 1, 10, 2, 100, skiResort, 0, t));
 
-        n1.addSkiSlope(new SkiSlope(1, 0, 5, 100, 0.5, 0.5, resort, 1));
-        n1.addSkiSlope(new SkiSlope(1, 2, 5, 100, 0.5, 0.5, resort, 2));
+        n1.addSkiSlope(new SkiSlope(1, 0, 5, 100, 0.5, 0.5, skiResort, 1));
+        n1.addSkiSlope(new SkiSlope(1, 2, 5, 100, 0.5, 0.5, skiResort, 2));
 
-        n2.addSkiSlope(new SkiSlope(2, 0, 5, 100, 0.5, 0.5, resort, 3));
-        n2.addLift(new Lift(2, 3, 10, 2, 100, resort, 4, t));
-        n2.addLift(new Lift(2, 4, 10, 2, 100, resort, 5, t));
+        n2.addSkiSlope(new SkiSlope(2, 0, 5, 100, 0.5, 0.5, skiResort, 3));
+        n2.addLift(new Lift(2, 3, 10, 2, 100, skiResort, 4, t));
+        n2.addLift(new Lift(2, 4, 10, 2, 100, skiResort, 5, t));
 
-        n3.addSkiSlope(new SkiSlope(3, 1, 5, 100, 0.5, 0.5, resort, 6));
-        n3.addSkiSlope(new SkiSlope(3, 4, 5, 100, 0.5, 0.5, resort, 7));
+        n3.addSkiSlope(new SkiSlope(3, 1, 5, 100, 0.5, 0.5, skiResort, 6));
+        n3.addSkiSlope(new SkiSlope(3, 4, 5, 100, 0.5, 0.5, skiResort, 7));
 
-        n4.addLift(new Lift(4, 5, 10, 2, 100, resort, 9, t));
+        n4.addLift(new Lift(4, 5, 10, 2, 100, skiResort, 9, t));
 
-        n5.addSkiSlope(new SkiSlope(5, 3, 5, 100, 0.5, 0.5, resort, 11));
-        n5.addSkiSlope(new SkiSlope(5, 4, 5, 100, 0.5, 0.5, resort, 12));
+        n5.addSkiSlope(new SkiSlope(5, 3, 5, 100, 0.5, 0.5, skiResort, 11));
+        n5.addSkiSlope(new SkiSlope(5, 4, 5, 100, 0.5, 0.5, skiResort, 12));
     }
 
     @Test
