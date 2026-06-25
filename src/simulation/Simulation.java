@@ -64,6 +64,15 @@ public class Simulation {
         return generator;
     }
 
+    public Event getNextEvent() {
+        EventPair nextPair = eventQueue.poll();
+
+        if (nextPair != null)
+            return nextPair.getEvent();
+
+        return null;
+    }
+
     public void addEvent(Event event) {
         eventQueue.add(new EventPair(event, eventCounter++));
     }
@@ -106,29 +115,20 @@ public class Simulation {
         visualise();
     }
 
-    public Event getNextEvent() {
-        EventPair nextPair = eventQueue.poll();
-
-        if (nextPair != null)
-            return nextPair.getEvent();
-
-        return null;
-    }
-
     private void visualise() throws WyjatekSystemuPlikow {
         GeneratorMapek generatorMapek = new GeneratorMapek(mapsPath);
-        firstMap(generatorMapek);
-        secondMap(generatorMapek);
+        skiResortMap(generatorMapek);
+        statisticsMap(generatorMapek);
 
         ArrayList<Athlete> trackedAthletes = Arrays.stream(athletes)
                 .filter(Athlete::isTracked)
                 .collect(Collectors.toCollection(ArrayList::new));
 
         for(Athlete athlete : trackedAthletes)
-            thirdMap(generatorMapek, athlete);
+            athleteMap(generatorMapek, athlete);
     }
 
-    private void firstMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
+    private void skiResortMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
         generatorMapek.zeruj();
 
         for(Node station : skiResort.getStations()) {
@@ -154,7 +154,7 @@ public class Simulation {
         System.out.println("First map created.");
     }
 
-    private void secondMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
+    private void statisticsMap(GeneratorMapek generatorMapek) throws WyjatekSystemuPlikow {
         generatorMapek.zeruj();
 
         for(Node station : skiResort.getStations()) {
@@ -180,7 +180,7 @@ public class Simulation {
         System.out.println("Second map created.");
     }
 
-    private void thirdMap(GeneratorMapek generatorMapek, Athlete athlete) throws WyjatekSystemuPlikow {
+    private void athleteMap(GeneratorMapek generatorMapek, Athlete athlete) throws WyjatekSystemuPlikow {
         generatorMapek.zeruj();
 
         for(Node station : skiResort.getStations()) {

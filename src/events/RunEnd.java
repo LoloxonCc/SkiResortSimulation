@@ -20,8 +20,8 @@ public class RunEnd extends ConnectionEnd {
         double newBoredom = athlete.getBoredomCoefficient() + (1 - athlete.getBoredomCoefficient()) * currentBoredom;
 
         athlete.increaseTotalDescentCount();
-        
-        SlopeMemory memory = athlete.getSlopeMemories()[connection.getNumber()];
+
+        SlopeMemory memory = athlete.getSlopeMemory(connection.getNumber());
         memory.setLastBoredomLevel(newBoredom);
         memory.setLastDescentNumber(athlete.getTotalDescentCount());
 

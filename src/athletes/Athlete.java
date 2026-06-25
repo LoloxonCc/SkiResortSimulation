@@ -100,8 +100,8 @@ public abstract class Athlete {
         this.totalDescentCount++;
     }
 
-    public SlopeMemory[] getSlopeMemories() {
-        return slopeMemories;
+    public SlopeMemory getSlopeMemory(int slopeId) {
+        return slopeMemories[slopeId];
     }
 
     public int getTotalDescentCount() {
