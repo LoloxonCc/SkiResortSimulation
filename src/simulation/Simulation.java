@@ -141,12 +141,12 @@ public class Simulation {
         for(Node station : skiResort.getStations()) {
             for(SkiSlope skiSlope : station.getSkiSlopes()) {
                 generatorMapek.dodajKrawedz(station.getNumber(), skiSlope.getEndingStation().getNumber(),
-                        new StylKrawedzi(StylLinii.CIAGLA), skiSlope.parametersMapString());
+                        new StylKrawedzi(StylLinii.CIAGLA), skiSlope.skiResortMapString());
             }
 
             for(Lift lift : station.getLifts()) {
                 generatorMapek.dodajKrawedz(station.getNumber(), lift.getEndingStation().getNumber(),
-                        new StylKrawedzi(StylLinii.PRZERYWANA), lift.parametersMapString());
+                        new StylKrawedzi(StylLinii.PRZERYWANA), lift.skiResortMapString());
             }
         }
 

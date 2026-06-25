@@ -1,5 +1,9 @@
 package athletes;
 
+/*
+    Class made specifically for an athlete to remember and update his statistics on a given lift.
+ */
+
 public class LiftMemory {
     private int liftCount;
     private final StringBuilder report;

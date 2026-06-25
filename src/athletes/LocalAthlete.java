@@ -6,6 +6,10 @@ import ski_resort.*;
 
 import java.util.Random;
 
+/*
+    Class implementing logic of an athlete choosing his route by the conditions given in the first part of project.
+ */
+
 public class LocalAthlete extends Athlete {
     public LocalAthlete(int skillLevel, double spontaneityCoefficient, String tracked, double skillAdjustmentWeight,
                    double surfaceLevellingWeight, int stationId, SkiResort skiResort, Time startTime, int number,
@@ -33,7 +37,7 @@ public class LocalAthlete extends Athlete {
 
     private Lift chooseRandomLift(Random generator, Node station) {
         int liftID = generator.nextInt(0, station.getLifts().length);
-        return station.getLifts()[liftID];
+        return station.getLift(liftID);
     }
 
     // Method for finding best route for the local athlete by conditions given in project description.
@@ -57,8 +61,8 @@ public class LocalAthlete extends Athlete {
         // Checks ski runs reachable by one lift ride.
         for(Lift lift : station.getLifts()) {
             Node endingStation = lift.getEndingStation();
-            for(SkiSlope t : endingStation.getSkiSlopes()) {
-                double atr = t.calculateCumulativeAttractiveness(this);
+            for(SkiSlope skiSlope : endingStation.getSkiSlopes()) {
+                double atr = skiSlope.calculateCumulativeAttractiveness(this);
                 if (atr > maxAttractiveness) {
                     maxAttractiveness = atr;
                     bestConnection = lift;

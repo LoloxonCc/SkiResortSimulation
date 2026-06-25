@@ -52,29 +52,11 @@ public class SkiSlope extends Connection {
                 athlete.getBoredomWeight() * (1 - athlete.getCurrentBoredom(this.getNumber()));
     }
 
-    @Override
-    public boolean isLift() {
-        return false;
-    }
-
-    @Override
     public void scheduleEvent(Simulation simulation, Time time, Athlete athlete) {
         simulation.addEvent(new RunStart(time, athlete, this));
     }
 
-    public int getDifficultyLevel() {
-        return difficultyLevel;
-    }
-
-    public double getBasicAttractiveness() {
-        return basicAttractiveness;
-    }
-
-    public double getBumpsResistance() {
-        return bumpsResistance;
-    }
-
-    public ArrayList<String> parametersMapString() {
+    public ArrayList<String> skiResortMapString() {
         ArrayList<String> out = new ArrayList<>();
         out.add("t" + this.number + ": poziom: " + this.difficultyLevel + ", czas: " + this.travelTime + "s");
         out.add("odporność: " + String.format("%.2f", this.basicAttractiveness) + ", " + String.format("%.5f", this.bumpsResistance));

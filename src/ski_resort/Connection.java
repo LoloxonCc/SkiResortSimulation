@@ -33,6 +33,14 @@ public abstract class Connection {
         return travelTime;
     }
 
+    public int getAthleteCounter() {
+        return athleteCounter;
+    }
+
+    public Node getStartingStation() {
+        return startingStation;
+    }
+
     public void incrementAthleteCounter() {
         athleteCounter++;
     }
@@ -41,15 +49,5 @@ public abstract class Connection {
         return number + ":\nCompleted " + athleteCounter + " runs.\n";
     }
 
-    public abstract boolean isLift();
-
     public abstract void scheduleEvent(Simulation simulation, Time time, Athlete athlete);
-
-    public int getAthleteCounter() {
-        return athleteCounter;
-    }
-
-    public Node getStartingStation() {
-        return startingStation;
-    }
 }

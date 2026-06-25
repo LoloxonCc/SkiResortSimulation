@@ -1,5 +1,9 @@
 package athletes;
 
+/*
+    Class made specifically for an athlete to remember and update his boredom level and statistics of a given slope.
+ */
+
 public class SlopeMemory {
     private double lastBoredomLevel;
     private int lastDescentNumber;
@@ -21,16 +25,20 @@ public class SlopeMemory {
         return lastDescentNumber;
     }
 
+    public int getDescentCount() {
+        return descentCount;
+    }
+
+    public String getReport() {
+        return report.toString();
+    }
+
     public void setLastBoredomLevel(double lastBoredomLevel) {
         this.lastBoredomLevel = lastBoredomLevel;
     }
 
     public void setLastDescentNumber(int lastDescentNumber) {
         this.lastDescentNumber = lastDescentNumber;
-    }
-
-    public int getDescentCount() {
-        return descentCount;
     }
 
     public void increaseDescentCount() {
@@ -41,9 +49,5 @@ public class SlopeMemory {
         if(!report.isEmpty())
             report.append(",");
         report.append(descentNumber);
-    }
-
-    public String getReport() {
-        return report.toString();
     }
 }

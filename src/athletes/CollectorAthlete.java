@@ -6,6 +6,10 @@ import ski_resort.*;
 
 import java.util.*;
 
+/*
+    Class implementing logic of an athlete choosing his route by searching for the slope in the resort that he used the least.
+ */
+
 public class CollectorAthlete extends Athlete {
     private final Queue<Connection> tripPlan;
 

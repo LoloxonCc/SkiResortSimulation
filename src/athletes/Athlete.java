@@ -7,8 +7,7 @@ import simulation.Simulation;
 import java.util.Random;
 
 /*
-    Represents an athlete (skier or snowboarder) participating in the ski resort simulation.
-    It is responsible for decision-making process for selecting next connection used by the athlet.
+    Abstract class to represent athlete (skier or snowboarder). Implements spontaneous choice.
  */
 public abstract class Athlete {
     protected final int skillLevel;
@@ -158,8 +157,8 @@ public abstract class Athlete {
     public Connection spontaneousChoice(Random generator, Node station) {
         int chosenConnectionId = generator.nextInt(0, station.getLifts().length + station.getSkiSlopes().length);
         if(chosenConnectionId < station.getLifts().length)
-            return station.getLifts()[chosenConnectionId];
+            return station.getLift(chosenConnectionId);
         else
-            return station.getSkiSlopes()[chosenConnectionId - station.getLifts().length];
+            return station.getSkiSlope(chosenConnectionId - station.getLifts().length);
     }
 }

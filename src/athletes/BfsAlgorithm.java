@@ -7,9 +7,13 @@ import ski_resort.SkiSlope;
 
 import java.util.*;
 
+/*
+    Class that implements BFS logic. Used by GreedyAthlete and CollectorAthlete to prepare trip plan.
+ */
+
 public class BfsAlgorithm {
     public List<Connection> findShortestPath(Node start, Node target) {
-        if (start.getNumber() == target.getNumber()) {
+        if(start.getNumber() == target.getNumber()) {
             return new ArrayList<>();
         }
 
@@ -20,14 +24,14 @@ public class BfsAlgorithm {
         queue.add(start);
         visited.put(start, true);
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             Node current = queue.poll();
 
-            if (current.getNumber() == target.getNumber()) {
+            if(current.getNumber() == target.getNumber()) {
                 break;
             }
 
-            for (SkiSlope slope : current.getSkiSlopes()) {
+            for(SkiSlope slope : current.getSkiSlopes()) {
                 Node neighbor = slope.getEndingStation();
                 if (!visited.getOrDefault(neighbor, false)) {
                     visited.put(neighbor, true);
@@ -36,7 +40,7 @@ public class BfsAlgorithm {
                 }
             }
 
-            for (Lift lift : current.getLifts()) {
+            for(Lift lift : current.getLifts()) {
                 Node neighbor = lift.getEndingStation();
                 if (!visited.getOrDefault(neighbor, false)) {
                     visited.put(neighbor, true);
@@ -46,13 +50,13 @@ public class BfsAlgorithm {
             }
         }
 
-        if (!visited.getOrDefault(target, false)) {
+        if(!visited.getOrDefault(target, false)) {
             return null;
         }
 
         LinkedList<Connection> path = new LinkedList<>();
         Node current = target;
-        while (current.getNumber() != start.getNumber()) {
+        while(current.getNumber() != start.getNumber()) {
             Connection edge = parentEdge.get(current);
             path.addFirst(edge);
             current = edge.getStartingStation();

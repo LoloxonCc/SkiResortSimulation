@@ -9,13 +9,13 @@ public class SkiResort {
         this.stations = stations;
     }
 
-    public Node getStation(int i) {
-        assert i >= 0 && i < stations.length : "Wrong station id!";
-        return stations[i];
+    public Node getStation(int stationId) {
+        assert stationId >= 0 && stationId < stations.length : "Wrong station id!";
+        return stations[stationId];
     }
 
     public Node[] getStations() {
-        return stations.clone();
+        return stations;
     }
 
     public int getTotalSkiSlopesCount() {

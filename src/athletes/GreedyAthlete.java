@@ -6,6 +6,10 @@ import ski_resort.*;
 
 import java.util.*;
 
+/*
+    Class implementing logic of an athlete choosing his route by searching for the most attractive slope in the resort.
+ */
+
 public class GreedyAthlete extends Athlete {
     private final Queue<Connection> tripPlan;
 
@@ -46,7 +50,8 @@ public class GreedyAthlete extends Athlete {
             for(SkiSlope skiSlope : node.getSkiSlopes()) {
                 if(targetSkiSlope == null) {
                     targetSkiSlope = skiSlope;
-                } else if(skiSlope.calculateCumulativeAttractiveness(this) > targetSkiSlope.calculateCumulativeAttractiveness(this)) {
+                }
+                else if(skiSlope.calculateCumulativeAttractiveness(this) > targetSkiSlope.calculateCumulativeAttractiveness(this)) {
                     targetSkiSlope = skiSlope;
                 }
             }

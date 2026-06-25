@@ -2,20 +2,23 @@ package queues;
 
 import events.Event;
 
+/*
+    Represents a pair: event and event's chronological number. Used to replace EventQueue with PriorityQueue.
+ */
+
 public class EventPair implements Comparable<EventPair> {
     private final Event event;
-    private final long sequenceNumber;
+    private final long chronologicalNumber;
 
-    public EventPair(Event event, long sequenceNumber) {
+    public EventPair(Event event, long chronologicalNumber) {
         this.event = event;
-        this.sequenceNumber = sequenceNumber;
+        this.chronologicalNumber = chronologicalNumber;
     }
 
     public Event getEvent() {
         return event;
     }
 
-    @Override
     public int compareTo(EventPair o) {
         long thisTime = this.event.getTime().toSeconds();
         long otherTime = o.getEvent().getTime().toSeconds();
@@ -24,6 +27,6 @@ public class EventPair implements Comparable<EventPair> {
             return Long.compare(thisTime, otherTime);
         }
 
-        return Long.compare(sequenceNumber, o.sequenceNumber);
+        return Long.compare(chronologicalNumber, o.chronologicalNumber);
     }
 }

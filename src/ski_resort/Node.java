@@ -35,10 +35,18 @@ public class Node {
         return exactSkiSlopes;
     }
 
+    public SkiSlope getSkiSlope(int slopeId) {
+        return skiSlopes[slopeId];
+    }
+
     public Lift[] getLifts() {
         Lift[] exactLifts = new Lift[liftsCount];
         System.arraycopy(lifts, 0, exactLifts, 0, liftsCount);
         return exactLifts;
+    }
+
+    public Lift getLift(int liftId) {
+        return lifts[liftId];
     }
     
     public void addLift(Lift lift) {

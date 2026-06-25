@@ -29,7 +29,7 @@ class LiftDepartureTest {
     }
 
     @Test
-    void testLiftDepartureWithFourAthletes() {
+    void testOne() {
         assertTrue(lift.isQueueEmpty());
 
         for (int i = 0; i < 4; i++) {
@@ -52,7 +52,7 @@ class LiftDepartureTest {
     }
 
     @Test
-    void testLiftDepartureWithFewerAthletesThanCapacity() {
+    void testTwo() {
         assertTrue(lift.isQueueEmpty());
 
         for (int i = 0; i < 2; i++) {
@@ -74,7 +74,7 @@ class LiftDepartureTest {
     }
 
     @Test
-    void testMaxQueueSizeStatistic() {
+    void testThree() {
         for (int i = 0; i < 4; i++) {
             Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, skiResort, startTime, i, 0.1, 0.1);
             lift.addToQueue(athlete);

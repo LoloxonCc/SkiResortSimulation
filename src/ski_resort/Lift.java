@@ -61,12 +61,6 @@ public class Lift extends Connection {
         return queue.first();
     }
 
-    @Override
-    public boolean isLift() {
-        return true;
-    }
-
-    @Override
     public void scheduleEvent(Simulation simulation, Time time, Athlete athlete) {
         simulation.addEvent(new EnterQueue(time, athlete, this));
     }
@@ -90,7 +84,7 @@ public class Lift extends Connection {
         queue.updateSum(time);
     }
 
-    public ArrayList<String> parametersMapString() {
+    public ArrayList<String> skiResortMapString() {
         ArrayList<String> out = new ArrayList<>();
         out.add("w" + this.number + ": " + this.maxGroupSize + " os. co " + this.timeInterval + "s");
         out.add("czas: " + this.travelTime + "s");
