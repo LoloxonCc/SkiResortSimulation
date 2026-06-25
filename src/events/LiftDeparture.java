@@ -19,7 +19,7 @@ public class LiftDeparture extends Event {
         lift.updateQueueSum(time);
         // In one run a lift can take up a group of a max size given in its specification.
         // If the max size of a group is bigger than the number of athletes in a queue it takes all of them.
-        while(!lift.getQueue().empty() && i < lift.getMaxGroupSize()) {
+        while(!lift.isQueueEmpty() && i < lift.getMaxGroupSize()) {
             simulation.addEvent(new LiftStart(time, lift.firstAthleteInQueue(), lift));
             i++;
         }

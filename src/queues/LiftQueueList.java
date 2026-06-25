@@ -75,4 +75,8 @@ public class LiftQueueList implements LiftQueue {
 
         return (int) Math.round((double) sizeSum / totalTimeInSeconds);
     }
+
+    public int  getCurrentSize() {
+        return currentSize;
+    }
 }

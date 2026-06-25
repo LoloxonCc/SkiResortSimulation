@@ -30,29 +30,30 @@ class LiftDepartureTest {
 
     @Test
     void testLiftDepartureWithFourAthletes() {
-        assertTrue(lift.getQueue().empty());
+        assertTrue(lift.isQueueEmpty());
 
         for (int i = 0; i < 4; i++) {
-            Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, mockResort, startTime, i, 0.1, 0.1);
+            Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5,
+                    0.5, 0, mockResort, startTime, i, 0.1, 0.1);
             lift.addToQueue(athlete);
         }
 
         int boardedCount = 0;
         lift.updateQueueSum(startTime);
-        while (!lift.getQueue().empty() && boardedCount < lift.getMaxGroupSize()) {
+        while (!lift.isQueueEmpty() && boardedCount < lift.getMaxGroupSize()) {
             lift.firstAthleteInQueue();
             lift.incrementAthleteCounter();
             boardedCount++;
         }
 
-        assertEquals(3, boardedCount, "Wagonik powinien zabrać 3 sportowców.");
-        assertEquals(3, lift.getAthleteCounter(), "Licznik przejazdów wyciągu powinien wzrosnąć o 3.");
-        assertFalse(lift.getQueue().empty(), "W kolejce powinien zostać jeszcze 1 sportowiec.");
+        assertEquals(3, boardedCount, "Lift should board 3 athletes.");
+        assertEquals(3, lift.getAthleteCounter(), "Athlete counter should increase by 3.");
+        assertEquals(1, lift.getCurrentQueueSize(), "There should be one athlete left in the queue.");
     }
 
     @Test
     void testLiftDepartureWithFewerAthletesThanCapacity() {
-        assertTrue(lift.getQueue().empty());
+        assertTrue(lift.isQueueEmpty());
 
         for (int i = 0; i < 2; i++) {
             Athlete athlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, mockResort, startTime, i, 0.1, 0.1);
@@ -61,15 +62,15 @@ class LiftDepartureTest {
 
         int boardedCount = 0;
         lift.updateQueueSum(startTime);
-        while (!lift.getQueue().empty() && boardedCount < lift.getMaxGroupSize()) {
+        while (!lift.isQueueEmpty() && boardedCount < lift.getMaxGroupSize()) {
             lift.firstAthleteInQueue();
             lift.incrementAthleteCounter();
             boardedCount++;
         }
 
-        assertEquals(2, boardedCount, "Wagonik powinien zabrać wszystkich (2) sportowców.");
-        assertEquals(2, lift.getAthleteCounter(), "Licznik przejazdów powinien wynosić 2.");
-        assertTrue(lift.getQueue().empty(), "Kolejka powinna być teraz całkowicie pusta.");
+        assertEquals(2, boardedCount, "Lift should board  all (2) athletes.");
+        assertEquals(2, lift.getAthleteCounter(), "Athlete counter should increase by 2.");
+        assertTrue(lift.isQueueEmpty(), "Queue should be empty.");
     }
 
     @Test
@@ -81,7 +82,7 @@ class LiftDepartureTest {
 
         int boardedCount = 0;
         lift.updateQueueSum(startTime);
-        while (!lift.getQueue().empty() && boardedCount < lift.getMaxGroupSize()) {
+        while (!lift.isQueueEmpty() && boardedCount < lift.getMaxGroupSize()) {
             lift.firstAthleteInQueue();
             lift.incrementAthleteCounter();
             boardedCount++;
@@ -90,6 +91,6 @@ class LiftDepartureTest {
         Athlete lastAthlete = new LocalAthlete(5, 0.1, "", 0.5, 0.5, 0, mockResort, startTime, 99, 0.1, 0.1);
         lift.addToQueue(lastAthlete);
 
-        assertEquals(4, lift.getQueue().getMaxSize(), "Maksymalna historyczna długość kolejki powinna wynosić 4.");
+        assertEquals(4, lift.getMaxQueueSize(), "Maximum queue size should be 4.");
     }
 }

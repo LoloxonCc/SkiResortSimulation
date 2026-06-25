@@ -36,8 +36,16 @@ public class Lift extends Connection {
         queue.addLast(athlete);
     }
 
-    public LiftQueue getQueue() {
-        return queue;
+    public boolean isQueueEmpty() {
+        return queue.empty();
+    }
+
+    public int getMaxQueueSize() {
+        return queue.getMaxSize();
+    }
+
+    public int getCurrentQueueSize() {
+        return queue.getCurrentSize();
     }
 
     public String toString(Simulation simulation) {

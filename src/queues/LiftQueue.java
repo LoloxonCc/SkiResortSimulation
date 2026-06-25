@@ -18,4 +18,6 @@ public interface LiftQueue {
     void updateSum(Time time);
 
     int calculateAverageSize(Time simulationEndTime, Time simulationStartTime);
+
+    int getCurrentSize();
 }
